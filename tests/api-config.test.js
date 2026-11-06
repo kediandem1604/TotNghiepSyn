@@ -55,6 +55,14 @@ test.each([
   ['event.start', '9:00', 'Giờ bắt đầu không hợp lệ'],
   ['event.end', '09:00', 'Giờ kết thúc phải sau giờ bắt đầu'],
   ['venue.directionsUrl', 'javascript:alert(1)', 'Link chỉ đường phải bắt đầu bằng http:// hoặc https://'],
+  ['venue.directionsUrl', 'maps.app.goo.gl/XM9tDsqNQs2nFzrj6', 'Link chỉ đường phải bắt đầu bằng http:// hoặc https://'],
+  ['venue.name', 'x'.repeat(151), 'Tên nơi tổ chức tối đa 150 ký tự'],
+  ['venue.address', 'x'.repeat(201), 'Địa chỉ tối đa 200 ký tự'],
+  ['texts.inviteBody', 'x'.repeat(1001), 'Lời mời — nội dung tối đa 1000 ký tự'],
+  ['texts.closing', 'x'.repeat(1001), 'Lời kết tối đa 1000 ký tự'],
+  ['event.note', 'x'.repeat(301), 'Ghi chú tối đa 300 ký tự'],
+  ['graduate.fullName', 'x'.repeat(61), 'Tên hiển thị tối đa 60 ký tự'],
+  ['contact.messenger', 'a'.repeat(101), 'Messenger tối đa 100 ký tự'],
   ['music.youtube', 'https://example.com/x', 'Link YouTube không đúng'],
   ['music.spotify', 'https://example.com/x', 'Link Spotify không đúng'],
   ['contact.phone', '12ab', 'Điện thoại không hợp lệ (8–15 chữ số)'],
@@ -99,6 +107,26 @@ test('Messenger không đọc được → 400', async () => {
   const res = await save(valid({ 'contact.messenger': 'Ngọc Thắm' }))
   expect(res.status).toBe(400)
   expect(res.body.error).toBe('Messenger: nhập tên người dùng Facebook, vd. ngoctham.ly')
+})
+
+test('ô không gửi lên (tab quản lí cũ chưa có ô mới) → không lưu, thiệp dùng mặc định', async () => {
+  const settings = valid()
+  delete settings.event.note
+  delete settings.music.spotify
+  const res = await save(settings)
+  expect(res.status).toBe(200)
+  const { body } = await call(r, 'GET', '/api/config')
+  expect(body.settings.event.note).toBeUndefined()
+  expect(body.settings.music.spotify).toBeUndefined()
+  expect(body.settings.event.start).toBe(content.event.start)
+})
+
+test('ô thiếu vẫn được so với mặc định: giờ bắt đầu sau giờ kết thúc mặc định → 400', async () => {
+  const settings = valid({ 'event.start': '13:00' })
+  delete settings.event.end // mặc định 12:00
+  const res = await save(settings)
+  expect(res.status).toBe(400)
+  expect(res.body.error).toBe('Giờ kết thúc phải sau giờ bắt đầu')
 })
 
 test('khôi phục mặc định', async () => {

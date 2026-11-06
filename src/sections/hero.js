@@ -1,6 +1,7 @@
 import { h } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
 import { eventRange } from '../lib/time.js'
+import { escapeHtml } from '../lib/text.js'
 
 /** Hình minh hoạ khi chưa có ảnh: trời, mây, mũ tốt nghiệp và chữ lồng. */
 function illustration(shortName) {
@@ -19,7 +20,7 @@ function illustration(shortName) {
       <path d="M50 0v30" stroke="#f2c46d" stroke-width="3.5" stroke-linecap="round"/>
       <circle cx="50" cy="34" r="5" fill="#f2c46d"/><circle cx="0" cy="-4" r="4" fill="#f2c46d"/>
     </g>
-    <text x="120" y="222" text-anchor="middle" font-family="Great Vibes, cursive" font-size="44" fill="#2378c2">${shortName}</text>
+    <text x="120" y="222" text-anchor="middle" font-family="Great Vibes, cursive" font-size="44" fill="#2378c2">${escapeHtml(shortName)}</text>
   </svg>`
 }
 

@@ -54,7 +54,7 @@ export function renderCover(host, ctx) {
     h('p', { class: 'cover__date', text: formatDateDots(range.start).replace(/\./g, ' · ') }),
   ]
   const { music } = content
-  const hint = music?.src || music?.youtube || music?.spotify ?h('p', { class: 'cover__hint', text: '🎵 Thiệp có nhạc nền, nhớ bật âm thanh nhé' }) : null
+  const hint = music?.src || music?.youtube || music?.spotify ? h('p', { class: 'cover__hint', text: '🎵 Thiệp có nhạc nền, nhớ bật âm thanh nhé' }) : null
   const stage = h('div', { class: 'cover__stage' }, ...head, envelope, openBtn, hint)
   const plane = h('div', { class: 'cover__plane', html: planeSvg(70) })
   const left = h('div', { class: 'cover__bank cover__bank--left', html: BANK })

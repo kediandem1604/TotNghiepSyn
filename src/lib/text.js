@@ -1,5 +1,13 @@
 import { eventRange, longDateVi, timeOfDay } from './time.js'
 
+/** Tiêu đề tab trình duyệt, theo tên trong cài đặt. */
+export const pageTitle = (content) => `Thư mời tốt nghiệp · ${content.graduate.fullName}`
+
+const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }
+
+/** Dùng khi buộc phải ghép chữ người dùng nhập vào HTML/SVG. */
+export const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => HTML_ESCAPES[c])
+
 /** Tin nhắn gửi khách: điền {ten}, {link}, {ngay}, {gio} theo thông tin buổi lễ. */
 export function inviteMessage({ template, name, link, event }) {
   return fillTemplate(template, {

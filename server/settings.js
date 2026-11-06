@@ -1,8 +1,11 @@
 import { HttpError } from './http.js'
 import { cleanText } from './validate.js'
-import { SETTINGS_FIELDS, getPath, setPath } from '../shared/settings.js'
+import { SETTINGS_FIELDS, getPath, setPath, pickSettings } from '../shared/settings.js'
 import { youtubeInfo } from '../src/lib/youtube.js'
 import { spotifyInfo } from '../src/lib/spotify.js'
+import content from '../content.js'
+
+const DEFAULTS = pickSettings(content)
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/
 const TIME = /^([01]\d|2[0-3]):[0-5]\d$/
@@ -54,12 +57,20 @@ function checkField(field, raw) {
   return value
 }
 
-/** Kiểm tra và làm sạch cài đặt gửi lên; sai thì ném HttpError(400) với câu báo lỗi tiếng Việt. */
-export function validateSettings(input) {
+/**
+ * Kiểm tra và làm sạch cài đặt gửi lên; sai thì ném HttpError(400) với câu báo lỗi tiếng Việt.
+ * Ô không gửi lên (vd. tab quản lí mở từ bản cũ, chưa có ô mới) thì không lưu → thiệp dùng mặc định.
+ */
+export function validateSettings(input, defaults = DEFAULTS) {
   if (typeof input !== 'object' || input === null || Array.isArray(input)) throw bad('Cài đặt không hợp lệ')
   const out = {}
-  for (const field of SETTINGS_FIELDS) setPath(out, field.path, checkField(field, getPath(input, field.path)))
-  if (out.event.end <= out.event.start) throw bad('Giờ kết thúc phải sau giờ bắt đầu')
-  if (!out.texts.shareTemplate.includes('{link}')) throw bad('Mẫu tin nhắn phải có {link} để khách nhận được link thiệp')
+  for (const field of SETTINGS_FIELDS) {
+    const raw = getPath(input, field.path)
+    if (raw !== undefined) setPath(out, field.path, checkField(field, raw))
+  }
+  // So giữa các ô dùng giá trị sẽ hiện trên thiệp: ô không gửi lên lấy mặc định.
+  const shown = (path) => getPath(out, path) ?? getPath(defaults, path)
+  if (shown('event.end') <= shown('event.start')) throw bad('Giờ kết thúc phải sau giờ bắt đầu')
+  if (!shown('texts.shareTemplate').includes('{link}')) throw bad('Mẫu tin nhắn phải có {link} để khách nhận được link thiệp')
   return out
 }

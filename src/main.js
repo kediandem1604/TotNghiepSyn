@@ -17,7 +17,7 @@ import { loadSettings } from './lib/load-settings.js'
 import { api } from './lib/api.js'
 import { h, prefersReducedMotion } from './lib/dom.js'
 import { parseRoute } from './lib/route.js'
-import { displayName } from './lib/text.js'
+import { displayName, pageTitle } from './lib/text.js'
 import { withTimeout } from './lib/async.js'
 import { initSky } from './fx/sky.js'
 import { initReveal } from './fx/reveal.js'
@@ -85,6 +85,7 @@ async function boot() {
   // nên chờ cài đặt, tối đa 2,5 giây; lỗi hoặc chậm thì dùng nội dung gốc trong content.js.
   const guestReady = withTimeout(loadGuest(route.slug), GUEST_TIMEOUT_MS).catch(() => null)
   const content = mergeSettings(baseContent, await loadSettings(api.getConfig))
+  document.title = pageTitle(content)
 
   const safe = (cb) => {
     try {
