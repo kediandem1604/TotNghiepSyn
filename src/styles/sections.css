@@ -1,0 +1,232 @@
+/* ── Khung chung của trang thiệp ───────────────────────── */
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  position: relative;
+  width: min(100%, var(--content-w));
+  margin: 0 auto;
+  padding: 64px var(--gutter);
+}
+
+.section[hidden] {
+  display: none;
+}
+
+.section-head {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--sky-600);
+}
+
+.section-title {
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 8.4vw, 40px);
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.divider span {
+  width: 46px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sky-300));
+}
+
+.divider span:last-child {
+  transform: scaleX(-1);
+}
+
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px 22px;
+}
+
+.script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.muted {
+  color: var(--ink-soft);
+}
+
+/* ── Nút ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  user-select: none;
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn--primary {
+  color: var(--white);
+  background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+  box-shadow: 0 10px 24px rgba(35, 120, 194, 0.32);
+}
+
+.btn--ghost {
+  color: var(--sky-700);
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--small {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 13.5px;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+@media (hover: hover) {
+  .btn:not(:disabled):hover {
+    transform: translateY(-2px);
+  }
+  .btn--primary:not(:disabled):hover {
+    box-shadow: 0 14px 30px rgba(35, 120, 194, 0.4);
+  }
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* ── Hiện dần khi cuộn ─────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Nút nhạc ──────────────────────────────────────────── */
+.music {
+  position: fixed;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 50px;
+  padding: 0 12px 0 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s var(--ease-out);
+}
+
+.is-opened .music {
+  opacity: 1;
+  transform: none;
+}
+
+.music__disc {
+  display: grid;
+  animation: spin 5s linear infinite;
+}
+
+.music.is-off .music__disc,
+.music.is-off .music__bars i {
+  animation-play-state: paused;
+}
+
+.music__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 16px;
+}
+
+.music__bars i {
+  width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--sky-500);
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite alternate;
+}
+
+.music__bars i:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.music__bars i:nth-child(3) {
+  animation-delay: -0.6s;
+}
+
+.music.is-off .music__bars i {
+  transform: scaleY(0.25);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes eq {
+  from {
+    transform: scaleY(0.25);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}

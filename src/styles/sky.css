@@ -1,0 +1,103 @@
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sky__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.sky__layer--noon {
+  background: linear-gradient(180deg, #7cc2f6 0%, #a9d8fd 38%, #d7edff 72%, #eef8ff 100%);
+}
+
+.sky__layer--dawn {
+  background: linear-gradient(180deg, #bfe1fb 0%, #dcefff 46%, #f2f8ff 74%, #fff1e8 100%);
+}
+
+.sky__layer--dusk {
+  opacity: 0;
+  background: linear-gradient(180deg, #8fb5ee 0%, #b9b8ee 40%, #f1c3d2 74%, #ffdcc2 100%);
+}
+
+.sky__sun {
+  position: absolute;
+  top: -12vmin;
+  right: -10vmin;
+  width: 62vmin;
+  height: 62vmin;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 252, 238, 0.95) 0%, rgba(255, 244, 214, 0.55) 22%, rgba(255, 244, 214, 0) 62%);
+  will-change: transform;
+}
+
+.sky__sun::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 45%);
+  animation: sun-breathe 7s ease-in-out infinite;
+}
+
+@keyframes sun-breathe {
+  50% {
+    transform: scale(1.12);
+    opacity: 0.7;
+  }
+}
+
+.clouds {
+  position: absolute;
+  left: 0;
+  width: max(200vw, 2000px);
+  animation: cloud-drift linear infinite;
+  will-change: transform;
+}
+
+.clouds svg {
+  width: 100%;
+  height: 100%;
+}
+
+.clouds--far {
+  top: 5vh;
+  aspect-ratio: 2000 / 260;
+  animation-duration: 160s;
+}
+
+.clouds--mid {
+  top: 36vh;
+  aspect-ratio: 2000 / 260;
+  animation-duration: 105s;
+  animation-direction: reverse;
+}
+
+.clouds--near {
+  bottom: -2vh;
+  aspect-ratio: 2000 / 280;
+  animation-duration: 70s;
+}
+
+@keyframes cloud-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.is-hidden .clouds,
+.is-hidden .sky__sun::after {
+  animation-play-state: paused;
+}
+
+.sky.is-static .clouds,
+.sky.is-static .sky__sun::after {
+  animation: none;
+}
