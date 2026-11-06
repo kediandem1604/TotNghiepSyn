@@ -1,5 +1,12 @@
 import { test, expect } from 'vitest'
-import { fillTemplate, displayName } from '../src/lib/text.js'
+import { fillTemplate, displayName, parseBulkLine } from '../src/lib/text.js'
+
+test('dòng thêm hàng loạt: "Tên" hoặc "Xưng hô | Tên"', () => {
+  expect(parseBulkLine('Tiến Quốc')).toEqual({ title: '', name: 'Tiến Quốc' })
+  expect(parseBulkLine(' Anh | Minh Trí ')).toEqual({ title: 'Anh', name: 'Minh Trí' })
+  expect(parseBulkLine('Chị|Vy|Nguyễn')).toEqual({ title: 'Chị', name: 'Vy Nguyễn' })
+  expect(parseBulkLine('Anh | ')).toEqual({ title: 'Anh', name: '' })
+})
 import { parseRoute } from '../src/lib/route.js'
 
 test('điền mẫu lời mời', () => {

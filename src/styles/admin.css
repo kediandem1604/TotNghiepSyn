@@ -1,0 +1,419 @@
+body {
+  background: linear-gradient(180deg, #cfe9ff 0%, #eaf6ff 40%, #f6fbff 100%) fixed;
+}
+
+#admin {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: max(20px, env(safe-area-inset-top)) 16px 60px;
+}
+
+.card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+}
+
+#admin .card {
+  padding: 20px 18px;
+  margin-bottom: 16px;
+}
+
+.linkish {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sky-600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.empty {
+  margin: 8px 0 0;
+  padding: 22px 12px;
+  text-align: center;
+  color: var(--ink-soft);
+  border-radius: 14px;
+  background: var(--sky-50);
+}
+
+.btn--danger {
+  color: #b23a48;
+}
+
+/* ── Đăng nhập ────────────────────────────────────────── */
+.login-wrap {
+  min-height: 90vh;
+  display: grid;
+  place-items: center;
+}
+
+.login {
+  width: min(100%, 380px);
+  display: grid;
+  gap: 12px;
+  text-align: center;
+}
+
+.login__icon {
+  display: grid;
+  place-items: center;
+}
+
+.login__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 26px;
+}
+
+.login__sub {
+  margin: 0 0 6px;
+}
+
+.login__error {
+  margin: 0;
+  min-height: 1.4em;
+  color: #b23a48;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ── Đầu trang ────────────────────────────────────────── */
+.admin-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-head__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 6vw, 28px);
+  line-height: 1.2;
+}
+
+.admin-head__sub {
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.admin-head__actions {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+@media (max-width: 480px) {
+  .admin-head__actions .btn span {
+    display: none;
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 12px 4px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.stat b {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--sky-700);
+}
+
+.stat span {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .stat {
+    grid-column: span 2;
+  }
+  .stat:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow-sm);
+}
+
+.tab {
+  flex: 1;
+  min-height: 42px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tab[aria-selected='true'] {
+  color: var(--white);
+  background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+}
+
+/* ── Thêm khách ───────────────────────────────────────── */
+.add {
+  display: grid;
+  gap: 12px;
+}
+
+.add__head,
+.list-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.list-head {
+  margin-bottom: 12px;
+}
+
+.add__fields {
+  display: grid;
+  gap: 10px;
+}
+
+.add__fields[hidden] {
+  display: none;
+}
+
+.add__hint {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.field--note {
+  min-height: 70px !important;
+}
+
+.field--search {
+  margin-bottom: 12px;
+}
+
+.created:empty {
+  display: none;
+}
+
+.created {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--sky-50);
+  border: 1px dashed var(--sky-300);
+}
+
+.created__title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--sky-700);
+}
+
+.created__item {
+  display: grid;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--white);
+}
+
+.created__info {
+  display: grid;
+}
+
+.created__info a {
+  font-size: 13.5px;
+  overflow-wrap: anywhere;
+}
+
+.created__actions,
+.guest__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ── Danh sách khách ──────────────────────────────────── */
+.guest-list {
+  display: grid;
+  gap: 10px;
+}
+
+.guest {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.guest--edit {
+  border-color: var(--sky-300);
+  box-shadow: 0 0 0 3px rgba(95, 182, 242, 0.15);
+}
+
+.guest--edit p {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.guest__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.guest__who {
+  display: grid;
+  min-width: 0;
+}
+
+.guest__name {
+  font-size: 16.5px;
+  overflow-wrap: anywhere;
+}
+
+.guest__link {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.guest__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.guest__meta,
+.guest__note {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+.guest__note {
+  font-style: italic;
+  overflow-wrap: anywhere;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge--idle {
+  color: var(--ink-soft);
+  background: #eef2f6;
+}
+
+.badge--open {
+  color: var(--sky-700);
+  background: var(--sky-100);
+}
+
+.badge--yes {
+  color: #1f7a52;
+  background: #dcf5e8;
+}
+
+.badge--no {
+  color: #a3364a;
+  background: #fde4ea;
+}
+
+/* ── Lời chúc & xác nhận ──────────────────────────────── */
+.admin-wishes,
+.rsvp-list {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-wish {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.admin-wish__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-wish__emoji {
+  font-size: 22px;
+}
+
+.admin-wish__who {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-wish__msg {
+  margin: 8px 0 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.rsvp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.rsvp-row__right {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
