@@ -8,6 +8,7 @@ import './styles/hero.css'
 import './styles/info.css'
 import './styles/schedule.css'
 import './styles/venue.css'
+import './styles/rsvp.css'
 
 import content from '../content.js'
 import { api } from './lib/api.js'
@@ -24,6 +25,7 @@ import { renderInvite } from './sections/invite.js'
 import { renderSchedule } from './sections/schedule.js'
 import { renderVenue } from './sections/venue.js'
 import { renderGallery } from './sections/gallery.js'
+import { renderRsvp } from './sections/rsvp.js'
 import { renderContact } from './sections/contact.js'
 import { renderClosing } from './sections/closing.js'
 
@@ -34,6 +36,7 @@ const SECTIONS = [
   ['schedule', renderSchedule],
   ['venue', renderVenue],
   ['gallery', renderGallery],
+  ['rsvp', renderRsvp],
   ['contact', renderContact],
   ['closing', renderClosing],
 ]

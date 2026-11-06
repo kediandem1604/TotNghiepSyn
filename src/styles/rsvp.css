@@ -1,0 +1,108 @@
+/* Ô nhập dùng chung (xác nhận, lời chúc) */
+.field {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1.5px solid var(--sky-200);
+  background: var(--white);
+  font-size: 16px;
+  color: var(--ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field::placeholder {
+  color: var(--ink-faint);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--sky-400);
+  box-shadow: 0 0 0 4px rgba(95, 182, 242, 0.18);
+}
+
+textarea.field {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.rsvp {
+  display: grid;
+  gap: 14px;
+  text-align: center;
+}
+
+.rsvp__lead {
+  margin: 0;
+}
+
+.rsvp__choices {
+  display: grid;
+  gap: 10px;
+}
+
+.rsvp__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 18px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--sky-700);
+  background: var(--white);
+  border: 1.5px solid var(--sky-200);
+  transition: transform 0.25s var(--ease-out), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.rsvp__btn:active {
+  transform: scale(0.97);
+}
+
+.rsvp__btn.is-on {
+  color: var(--white);
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+  box-shadow: 0 10px 24px rgba(35, 120, 194, 0.32);
+}
+
+.rsvp__btn:disabled {
+  opacity: 0.7;
+}
+
+.rsvp__emoji {
+  font-size: 20px;
+}
+
+.rsvp__btn.is-on .rsvp__emoji {
+  animation: pop 0.5s var(--ease-spring);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.rsvp__thanks {
+  margin: 0;
+  min-height: 1.6em;
+  font-weight: 600;
+  color: var(--sky-700);
+}
+
+.rsvp__thanks:empty {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .rsvp__choices {
+    grid-template-columns: 1fr 1fr;
+  }
+}
