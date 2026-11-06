@@ -417,3 +417,72 @@ body {
   justify-items: end;
   gap: 2px;
 }
+
+/* ── Tab Cài đặt ─────────────────────────────────────── */
+.cfg-intro {
+  margin: 0 4px 14px;
+  font-size: 14px;
+}
+
+#admin .cfg-group {
+  min-inline-size: 0;
+  margin: 0 0 16px;
+}
+
+/* legend nổi để nằm gọn trong khung card */
+.cfg-legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 14px;
+}
+
+.cfg-grid {
+  clear: both;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px 12px;
+}
+
+.cfg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cfg-field--wide {
+  grid-column: 1 / -1;
+}
+
+.cfg-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cfg-hint {
+  font-size: 12.5px;
+}
+
+.cfg-field textarea.field {
+  resize: vertical;
+  min-height: 84px;
+}
+
+/* Nút Lưu luôn trong tầm tay khi cuộn form dài */
+.cfg-actions {
+  position: sticky;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}

@@ -49,5 +49,8 @@ export function createAdminApi(password) {
     updateGuest: (slug, patch) => request('PATCH', `/admin/guests/${seg(slug)}`, patch, auth),
     deleteGuest: (slug) => request('DELETE', `/admin/guests/${seg(slug)}`, null, auth),
     deleteWish: (id) => request('DELETE', `/admin/wishes/${seg(id)}`, null, auth),
+    getConfig: () => request('GET', '/config'),
+    saveConfig: (settings) => request('PUT', '/admin/config', { settings }, auth),
+    resetConfig: () => request('DELETE', '/admin/config', null, auth),
   }
 }

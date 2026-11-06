@@ -1,6 +1,5 @@
 import { h, toast } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
-import content from '../../content.js' // tạm thời; tab Cài đặt sẽ truyền nội dung đã ghép
 import { displayName } from '../lib/text.js'
 import { formatWishTime } from '../lib/time.js'
 import { stripDiacritics } from '../../shared/slug.js'
@@ -9,7 +8,8 @@ import { guestLink, previewLink, inviteText, copyText, canShare, shareInvite } f
 
 const norm = (s) => stripDiacritics(s).toLowerCase()
 
-function linkActions(guest, { compact = false } = {}) {
+/** Nút copy/chia sẻ link; `content` là nội dung đã ghép cài đặt (mẫu tin nhắn, ngày giờ). */
+function linkActions(guest, content, { compact = false } = {}) {
   const btn = (icon, label, onClick, cls = '') =>
     h('button', {
       class: `btn btn--ghost btn--small ${cls}`,
@@ -82,7 +82,7 @@ export function renderGuestsTab(root, state) {
         ...created.map((g) =>
           h('div', { class: 'created__item' },
             h('div', { class: 'created__info' }, h('b', { text: displayName(g) }), h('a', { href: previewLink(g.slug), target: '_blank', rel: 'noopener', title: 'Mở xem thử (không tính là khách đã mở)', text: guestLink(g.slug).replace(/^https?:\/\//, '') })),
-            h('div', { class: 'created__actions' }, linkActions(g, { compact: created.length > 1 })),
+            h('div', { class: 'created__actions' }, linkActions(g, state.content, { compact: created.length > 1 })),
           ),
         ),
       )
@@ -123,7 +123,7 @@ export function renderGuestsTab(root, state) {
       opened ? h('p', { class: 'guest__meta', text: `Mở lần đầu ${formatWishTime(g.firstOpenedAt)} · gần nhất ${formatWishTime(g.lastOpenedAt)}` }) : null,
       g.note ? h('p', { class: 'guest__note', text: `“${g.note}”` }) : null,
       h('div', { class: 'guest__actions' },
-        ...linkActions(g, { compact: true }),
+        ...linkActions(g, state.content, { compact: true }),
         h('a', { class: 'btn btn--ghost btn--small', href: previewLink(g.slug), target: '_blank', rel: 'noopener', attrs: { title: 'Xem thử (không tính là đã mở)', 'aria-label': 'Xem thử' }, html: icons.eye }),
         h('button', { class: 'btn btn--ghost btn--small', attrs: { type: 'button', title: 'Sửa', 'aria-label': 'Sửa' }, html: icons.edit, on: { click: () => row.replaceWith(editRow(g)) } }),
         h('button', {

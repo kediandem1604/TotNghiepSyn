@@ -5,7 +5,8 @@ import '../styles/sections.css'
 import '../styles/rsvp.css'
 import '../styles/admin.css'
 
-import content from '../../content.js'
+import baseContent from '../../content.js'
+import { mergeSettings } from '../../shared/settings.js'
 import { h, toast } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
 import { createAdminApi } from '../lib/api.js'
@@ -13,6 +14,10 @@ import { eventRange, formatDateDots } from '../lib/time.js'
 import { renderLogin } from './login.js'
 import { renderGuestsTab } from './guests.js'
 import { renderWishesTab, renderRsvpTab } from './wishes.js'
+import { renderSettingsTab } from './settings.js'
+
+/** Cài đặt đã lưu; lỗi thì null (tab Cài đặt sẽ báo, không cho sửa đè). */
+const fetchSettings = (api) => api.getConfig().then((r) => r.settings, () => null)
 
 const PASS_KEY = 'thiep:admin'
 const TAB_KEY = 'thiep:admin-tab'
@@ -49,17 +54,31 @@ function stats(data) {
   return h('div', { class: 'stats' }, items.map(([label, n]) => h('div', { class: 'stat' }, h('b', { text: n }), h('span', { text: label }))))
 }
 
-function dashboard(password, data) {
+function dashboard(password, data, settings) {
   const api = createAdminApi(password)
-  const state = { api, data, reload: null }
+  const state = {
+    api,
+    data,
+    settings, // null = chưa tải được
+    content: mergeSettings(baseContent, settings || {}), // nội dung thiệp đã ghép cài đặt
+    reload: null,
+    refreshHead: null,
+  }
   const statsWrap = h('div')
   const panel = h('div', { class: 'panel' })
+  const headSub = h('p', { class: 'admin-head__sub' })
   let current = null
+
+  state.refreshHead = () => {
+    const date = formatDateDots(eventRange(state.content.event).start)
+    headSub.textContent = `${state.content.graduate.fullName} · ${date}`
+  }
 
   const tabs = [
     ['guests', 'Khách mời', renderGuestsTab],
     ['rsvp', 'Xác nhận', renderRsvpTab],
     ['wishes', 'Lời chúc', renderWishesTab],
+    ['settings', 'Cài đặt', renderSettingsTab],
   ]
   let active = (() => {
     try {
@@ -93,7 +112,13 @@ function dashboard(password, data) {
 
   state.reload = async ({ background = false } = {}) => {
     try {
-      state.data = await api.overview()
+      const [data, settings] = await Promise.all([api.overview(), fetchSettings(api)])
+      state.data = data
+      if (settings) {
+        state.settings = settings
+        state.content = mergeSettings(baseContent, settings)
+        state.refreshHead()
+      }
       statsWrap.replaceChildren(stats(state.data))
       current?.update({ background })
     } catch (err) {
@@ -111,12 +136,12 @@ function dashboard(password, data) {
   const onVisible = () => !document.hidden && state.reload({ background: true })
   document.addEventListener('visibilitychange', onVisible)
 
-  const date = formatDateDots(eventRange(content.event).start)
+  state.refreshHead()
   root.replaceChildren(
     h('header', { class: 'admin-head' },
       h('div', {},
         h('h1', { class: 'admin-head__title', text: 'Quản lí thiệp mời' }),
-        h('p', { class: 'admin-head__sub', text: `${content.graduate.fullName} · ${date}` }),
+        headSub,
       ),
       h('div', { class: 'admin-head__actions' },
         h('a', { class: 'btn btn--ghost btn--small', href: '/', target: '_blank', rel: 'noopener', attrs: { title: 'Xem thiệp chung' }, html: `${icons.eye}<span>Xem thiệp</span>` }),
@@ -132,17 +157,18 @@ function dashboard(password, data) {
   show(active)
 }
 
-function start(password, data) {
+async function start(password, data) {
   session.set(password)
-  dashboard(password, data)
+  dashboard(password, data, await fetchSettings(createAdminApi(password)))
 }
 
 async function boot() {
   const saved = session.get()
   if (!saved) return renderLogin(root, start)
   try {
-    const data = await createAdminApi(saved).overview()
-    dashboard(saved, data)
+    const api = createAdminApi(saved)
+    const [data, settings] = await Promise.all([api.overview(), fetchSettings(api)])
+    dashboard(saved, data, settings)
   } catch (err) {
     session.set(null)
     renderLogin(root, start, err.status === 401 ? '' : err.message)
