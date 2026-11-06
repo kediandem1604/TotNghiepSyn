@@ -55,6 +55,19 @@ export function weekdayVi(date) {
   return WEEKDAYS[vn(date).getUTCDay()]
 }
 
+/** "10:00" → "10:00 sáng" (trước 11h sáng, trước 13h trưa, trước 18h chiều, còn lại tối). */
+export function timeOfDay(hhmm) {
+  const hh = Number(hhmm.split(':')[0])
+  const part = hh < 11 ? 'sáng' : hh < 13 ? 'trưa' : hh < 18 ? 'chiều' : 'tối'
+  return `${hhmm} ${part}`
+}
+
+/** "Thứ Năm, 26/11/2026" */
+export function longDateVi(date) {
+  const v = vn(date)
+  return `${weekdayVi(date)}, ${pad(v.getUTCDate())}/${pad(v.getUTCMonth() + 1)}/${v.getUTCFullYear()}`
+}
+
 export function formatDateDots(date) {
   const v = vn(date)
   return `${pad(v.getUTCDate())}.${pad(v.getUTCMonth() + 1)}.${v.getUTCFullYear()}`

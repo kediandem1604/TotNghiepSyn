@@ -1,17 +1,11 @@
 import { h, sectionHead } from '../lib/dom.js'
 import { icons, capSvg } from '../lib/icons.js'
 import {
-  eventRange, eventPhase, countdown, monthGrid, weekdayVi, googleCalendarUrl, buildIcs,
+  eventRange, eventPhase, countdown, monthGrid, weekdayVi, googleCalendarUrl, buildIcs, timeOfDay,
 } from '../lib/time.js'
 
 const pad = (n) => String(n).padStart(2, '0')
 const WEEK = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
-
-function timeLabel(hhmm) {
-  const [hh] = hhmm.split(':').map(Number)
-  const part = hh < 11 ? 'sáng' : hh < 13 ? 'trưa' : hh < 18 ? 'chiều' : 'tối'
-  return `${hhmm} ${part}`
-}
 
 export function renderSchedule(root, ctx) {
   const { event, graduate, venue } = ctx.content
@@ -23,7 +17,7 @@ export function renderSchedule(root, ctx) {
     h('div', { class: 'date-card__row' },
       h('div', { class: 'date-card__side' }, h('span', { class: 'date-card__icon', html: icons.calendar }), h('span', { text: weekdayVi(range.start) })),
       h('div', { class: 'date-card__day', text: pad(d) }),
-      h('div', { class: 'date-card__side' }, h('span', { class: 'date-card__icon', html: icons.clock }), h('span', { text: timeLabel(event.start) })),
+      h('div', { class: 'date-card__side' }, h('span', { class: 'date-card__icon', html: icons.clock }), h('span', { text: timeOfDay(event.start) })),
     ),
     h('p', { class: 'date-card__month', text: `Tháng ${m} · ${y}` }),
   )

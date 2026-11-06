@@ -1,14 +1,19 @@
-import content from '../../content.js'
 import { toast } from '../lib/dom.js'
-import { displayName, fillTemplate } from '../lib/text.js'
+import { displayName, inviteMessage } from '../lib/text.js'
 
 export const guestLink = (slug) => `${window.location.origin}/${slug}`
 
 /** Link để người gửi tự mở xem — không tính là khách đã mở thiệp. */
 export const previewLink = (slug) => `/${slug}?xem-thu=1`
 
-export const inviteText = (guest) =>
-  fillTemplate(content.texts.shareTemplate, { ten: displayName(guest), link: guestLink(guest.slug) })
+/** Tin nhắn mời theo mẫu trong cài đặt (`content` là nội dung đã ghép cài đặt). */
+export const inviteText = (guest, content) =>
+  inviteMessage({
+    template: content.texts.shareTemplate,
+    name: displayName(guest),
+    link: guestLink(guest.slug),
+    event: content.event,
+  })
 
 export async function copyText(text, okMessage = 'Đã copy') {
   try {
@@ -22,10 +27,11 @@ export async function copyText(text, okMessage = 'Đã copy') {
 
 export const canShare = () => typeof navigator.share === 'function'
 
-export async function shareInvite(guest) {
+export async function shareInvite(guest, content) {
+  const text = inviteText(guest, content)
   try {
-    await navigator.share({ title: 'Thư mời tốt nghiệp', text: inviteText(guest) })
+    await navigator.share({ title: 'Thư mời tốt nghiệp', text })
   } catch (err) {
-    if (err?.name !== 'AbortError') copyText(inviteText(guest), 'Đã copy lời mời')
+    if (err?.name !== 'AbortError') copyText(text, 'Đã copy lời mời')
   }
 }

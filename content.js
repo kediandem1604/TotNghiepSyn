@@ -72,9 +72,9 @@ export default {
     closing:
       'Một hành trình khép lại, một chặng đường mới mở ra.\nCảm ơn gia đình, thầy cô và bạn bè đã luôn đồng hành cùng Thắm suốt những năm đại học. Rất mong được gặp mọi người trong ngày đặc biệt này 🎓',
     // Mẫu tin nhắn khi bấm "Copy kèm lời mời" ở trang quản lí.
-    // {ten} = tên khách, {link} = link thiệp của khách đó.
-    shareTemplate:
-      'Thắm trân trọng mời {ten} đến dự lễ tốt nghiệp của Thắm lúc 10:00 sáng Thứ Năm, 26/11/2026 🎓\nThiệp mời: {link}',
+    // {ten} = tên khách, {link} = link thiệp của khách đó,
+    // {gio} = giờ bắt đầu (vd. "10:00 sáng"), {ngay} = ngày (vd. "Thứ Năm, 26/11/2026").
+    shareTemplate: 'Thắm trân trọng mời {ten} đến dự lễ tốt nghiệp của Thắm lúc {gio} {ngay} 🎓\nThiệp mời: {link}',
   },
 
   // Lời chúc gợi ý khi khách bấm nút 💡

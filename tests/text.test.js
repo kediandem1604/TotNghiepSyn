@@ -1,5 +1,16 @@
 import { test, expect } from 'vitest'
-import { fillTemplate, displayName } from '../src/lib/text.js'
+import { fillTemplate, displayName, inviteMessage } from '../src/lib/text.js'
+
+test('tin nhắn gửi khách tự điền ngày giờ theo cài đặt', () => {
+  expect(
+    inviteMessage({
+      template: 'Mời {ten} lúc {gio} {ngay}: {link}',
+      name: 'Vy',
+      link: 'https://x/vy',
+      event: { date: '2026-11-26', start: '14:00', end: '16:00' },
+    }),
+  ).toBe('Mời Vy lúc 14:00 chiều Thứ Năm, 26/11/2026: https://x/vy')
+})
 import { parseRoute } from '../src/lib/route.js'
 
 test('điền mẫu lời mời', () => {

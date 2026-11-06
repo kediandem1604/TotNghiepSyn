@@ -2,9 +2,22 @@ import { test, expect } from 'vitest'
 import {
   eventRange, eventPhase, countdown, monthGrid, weekdayVi,
   formatDateDots, formatWishTime, googleCalendarUrl, buildIcs,
+  timeOfDay, longDateVi,
 } from '../src/lib/time.js'
 
 const ev = { date: '2026-11-26', start: '10:00', end: '12:00' }
+
+test('giờ kèm buổi', () => {
+  expect(timeOfDay('10:00')).toBe('10:00 sáng')
+  expect(timeOfDay('12:30')).toBe('12:30 trưa')
+  expect(timeOfDay('14:00')).toBe('14:00 chiều')
+  expect(timeOfDay('19:00')).toBe('19:00 tối')
+})
+
+test('ngày dạng chữ', () => {
+  expect(longDateVi(eventRange(ev).start)).toBe('Thứ Năm, 26/11/2026')
+  expect(longDateVi(eventRange({ date: '2027-01-03', start: '08:00', end: '09:00' }).start)).toBe('Chủ Nhật, 03/01/2027')
+})
 
 test('khung giờ lễ theo +07', () => {
   const r = eventRange(ev)

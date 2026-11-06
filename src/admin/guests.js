@@ -1,5 +1,6 @@
 import { h, toast } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
+import content from '../../content.js' // tạm thời; tab Cài đặt sẽ truyền nội dung đã ghép
 import { displayName } from '../lib/text.js'
 import { formatWishTime } from '../lib/time.js'
 import { stripDiacritics } from '../../shared/slug.js'
@@ -18,8 +19,8 @@ function linkActions(guest, { compact = false } = {}) {
     })
   return [
     btn(icons.copy, 'Copy link', () => copyText(guestLink(guest.slug), 'Đã copy link')),
-    btn(icons.chat, 'Copy kèm lời mời', () => copyText(inviteText(guest), 'Đã copy lời mời')),
-    canShare() ? btn(icons.share, 'Chia sẻ', () => shareInvite(guest)) : null,
+    btn(icons.chat, 'Copy kèm lời mời', () => copyText(inviteText(guest, content), 'Đã copy lời mời')),
+    canShare() ? btn(icons.share, 'Chia sẻ', () => shareInvite(guest, content)) : null,
   ]
 }
 
