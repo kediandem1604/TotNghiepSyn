@@ -1,13 +1,16 @@
 import { h, sectionHead } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
+import { facebookLink } from '../../shared/facebook.js'
 
 export function renderContact(root, ctx) {
   const { contact, graduate } = ctx.content
   const digits = (s) => String(s || '').replace(/[^\d+]/g, '')
+  // Ô Facebook lưu ở contact.messenger (tên cũ, giữ để không mất dữ liệu đã lưu).
+  const fb = facebookLink(contact.messenger)
   const items = [
     contact.phone && { href: `tel:${digits(contact.phone)}`, icon: icons.phone, label: 'Gọi điện', sub: contact.phone },
     contact.zalo && { href: `https://zalo.me/${digits(contact.zalo).replace(/^\+84/, '0')}`, icon: icons.chat, label: 'Nhắn Zalo', sub: contact.zalo },
-    contact.messenger && { href: `https://m.me/${encodeURIComponent(contact.messenger)}`, icon: icons.messenger, label: 'Messenger', sub: contact.messenger },
+    fb && { href: fb.href, icon: icons.facebook, label: 'Facebook', sub: fb.text },
   ].filter(Boolean)
 
   if (!items.length) {

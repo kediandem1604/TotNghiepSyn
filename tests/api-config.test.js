@@ -62,7 +62,7 @@ test.each([
   ['texts.closing', 'x'.repeat(1001), 'Lời kết tối đa 1000 ký tự'],
   ['event.note', 'x'.repeat(301), 'Ghi chú tối đa 300 ký tự'],
   ['graduate.fullName', 'x'.repeat(61), 'Tên hiển thị tối đa 60 ký tự'],
-  ['contact.messenger', 'a'.repeat(101), 'Messenger tối đa 100 ký tự'],
+  ['contact.messenger', 'a'.repeat(301), 'Facebook tối đa 300 ký tự'],
   ['music.youtube', 'https://example.com/x', 'Link YouTube không đúng'],
   ['music.spotify', 'https://example.com/x', 'Link Spotify không đúng'],
   ['contact.phone', '12ab', 'Điện thoại không hợp lệ (8–15 chữ số)'],
@@ -92,21 +92,20 @@ test('số điện thoại có +, dấu cách, dấu chấm', async () => {
 })
 
 test.each([
-  ['https://www.facebook.com/ngoctham.ly', 'ngoctham.ly'],
-  ['facebook.com/ngoctham.ly/', 'ngoctham.ly'],
-  ['https://m.me/ngoctham.ly?ref=x', 'ngoctham.ly'],
-  ['https://www.facebook.com/profile.php?id=100012345678', '100012345678'],
-  ['ngoctham.ly', 'ngoctham.ly'],
-])('Messenger dán link %j → lưu tên người dùng %j', async (input, saved) => {
+  ['https://www.facebook.com/l.nth.03105', 'https://www.facebook.com/l.nth.03105'],
+  ['https://www.facebook.com/share/1ABcd2EfGh/?mibextid=wwXIfr', 'https://www.facebook.com/share/1ABcd2EfGh/'],
+  ['https://www.facebook.com/profile.php?id=100012345678', 'https://www.facebook.com/profile.php?id=100012345678'],
+  ['l.nth.03105', 'https://www.facebook.com/l.nth.03105'],
+])('Facebook dán %j → lưu link trang cá nhân %j', async (input, saved) => {
   const res = await save(valid({ 'contact.messenger': input }))
   expect(res.status).toBe(200)
   expect(res.body.settings.contact.messenger).toBe(saved)
 })
 
-test('Messenger không đọc được → 400', async () => {
+test('Facebook không đọc được → 400', async () => {
   const res = await save(valid({ 'contact.messenger': 'Ngọc Thắm' }))
   expect(res.status).toBe(400)
-  expect(res.body.error).toBe('Messenger: nhập tên người dùng Facebook, vd. ngoctham.ly')
+  expect(res.body.error).toBe('Facebook: dán link trang cá nhân hoặc tên người dùng, vd. facebook.com/l.nth.03105')
 })
 
 test('ô không gửi lên (tab quản lí cũ chưa có ô mới) → không lưu, thiệp dùng mặc định', async () => {

@@ -39,7 +39,7 @@ Vào `…/quan-li` → tab **Cài đặt**. Sửa xong bấm **Lưu** là khách
 - **Thời gian:** ngày, giờ bắt đầu, giờ kết thúc, ghi chú.
 - **Địa điểm:** tên nơi tổ chức, địa chỉ, chữ tìm trên bản đồ, link chỉ đường.
 - **Tên & lời văn:** tên hiển thị, tên gọi ngắn, câu dưới tên, lời mời, lời kết, mẫu tin nhắn gửi khách.
-- **Nhạc & liên hệ:** link YouTube, link Spotify, tên bài hát, điện thoại, Zalo, Messenger.
+- **Nhạc & liên hệ:** link YouTube, link Spotify, tên bài hát, điện thoại, Zalo, Facebook (dán link trang cá nhân).
 
 Ô để trống thì phần đó trên thiệp tự ẩn. Nút **Khôi phục mặc định** đưa mọi thứ về như trong `content.js`. Ảnh xem trước khi gửi link (Zalo, Messenger) là ảnh cố định, không ghi ngày giờ nên không bao giờ hiện giờ cũ.
 
@@ -54,7 +54,7 @@ Mọi chữ trên thiệp có giá trị mặc định trong **`content.js`**, m
 | **Ảnh chân dung** | Chép ảnh vào `public/anh/`, ghi `photos.hero: '/anh/chan-dung.jpg'`. Nên dùng ảnh dọc, dài khoảng 1600px. |
 | **Album ảnh** | `photos.gallery: ['/anh/1.jpg', '/anh/2.jpg']`. |
 | **Ngành, trường** | `graduate.degree`, `graduate.major`, `graduate.school`. |
-| **Liên hệ** | `contact.phone`, `contact.zalo` (số điện thoại), `contact.messenger` (tên người dùng Facebook). |
+| **Liên hệ** | `contact.phone`, `contact.zalo` (số điện thoại), `contact.messenger` (Facebook: link trang cá nhân hoặc tên người dùng). |
 | **Ghi chú giờ giấc** | `event.note`, ví dụ "Đến sớm 15 phút để chụp ảnh nha 📸". |
 | **Mẫu tin nhắn mời** | `texts.shareTemplate`. Trong đó `{ten}` là tên khách, `{link}` là link riêng của người đó, `{gio}` là giờ bắt đầu (vd. "10:00 sáng"), `{ngay}` là ngày (vd. "Thứ Năm, 26/11/2026"). |
 

@@ -48,7 +48,8 @@ export const SETTINGS_GROUPS = [
       { path: 'music.title', label: 'Tên bài hát', kind: 'text', max: 100 },
       { path: 'contact.phone', label: 'Điện thoại', kind: 'phone' },
       { path: 'contact.zalo', label: 'Zalo', kind: 'phone', hint: 'Số điện thoại dùng Zalo.' },
-      { path: 'contact.messenger', label: 'Messenger', kind: 'messenger', max: 100, hint: 'Tên người dùng Facebook (vd. ngoctham.ly) hoặc dán link trang Facebook.' },
+      // Ô Facebook; vẫn lưu ở `contact.messenger` để giữ dữ liệu đã lưu trước đây.
+      { path: 'contact.messenger', label: 'Facebook', kind: 'facebook', max: 300, hint: 'Dán link trang cá nhân Facebook (vd. https://www.facebook.com/l.nth.03105) hoặc tên người dùng.' },
     ],
   },
 ]

@@ -61,7 +61,7 @@ export default {
   contact: {
     phone: '', // vd. '0901234567'
     zalo: '', // số điện thoại Zalo, vd. '0901234567'
-    messenger: '', // tên người dùng Facebook, vd. 'ngoctham.ly'
+    messenger: '', // Facebook: link trang cá nhân hoặc tên người dùng, vd. 'https://www.facebook.com/l.nth.03105'
   },
 
   texts: {
