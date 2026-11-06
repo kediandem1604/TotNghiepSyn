@@ -4,6 +4,10 @@ import './styles/base.css'
 import './styles/sky.css'
 import './styles/sections.css'
 import './styles/cover.css'
+import './styles/hero.css'
+import './styles/info.css'
+import './styles/schedule.css'
+import './styles/venue.css'
 
 import content from '../content.js'
 import { api } from './lib/api.js'
@@ -15,10 +19,23 @@ import { initReveal } from './fx/reveal.js'
 import { createMusic } from './sections/music.js'
 import { createConfetti } from './fx/confetti.js'
 import { renderCover } from './sections/cover.js'
+import { renderHero } from './sections/hero.js'
+import { renderInvite } from './sections/invite.js'
+import { renderSchedule } from './sections/schedule.js'
+import { renderVenue } from './sections/venue.js'
+import { renderGallery } from './sections/gallery.js'
+import { renderContact } from './sections/contact.js'
+import { renderClosing } from './sections/closing.js'
 
-// Thứ tự các phần trên trang. Phần nào chưa có module thì bỏ qua.
+// Thứ tự các phần trên trang.
 const SECTIONS = [
-  // ['hero', renderHero], … (được thêm dần)
+  ['hero', renderHero],
+  ['invite', renderInvite],
+  ['schedule', renderSchedule],
+  ['venue', renderVenue],
+  ['gallery', renderGallery],
+  ['contact', renderContact],
+  ['closing', renderClosing],
 ]
 
 /** Dựng một phần; lỗi chỉ ẩn phần đó, các phần khác vẫn chạy. */

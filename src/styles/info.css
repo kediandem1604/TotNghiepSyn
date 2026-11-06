@@ -1,0 +1,244 @@
+/* ── Lời mời ──────────────────────────────────────────── */
+.invite {
+  text-align: center;
+  padding: 34px 24px 28px;
+}
+
+.invite::before,
+.invite::after {
+  content: '';
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  border: 2px solid var(--sky-200);
+  opacity: 0.9;
+}
+
+.invite::before {
+  top: 12px;
+  left: 12px;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 14px 0 0 0;
+}
+
+.invite::after {
+  bottom: 12px;
+  right: 12px;
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0 0 14px 0;
+}
+
+.invite__guest {
+  margin: 8px 0 12px;
+  font-size: clamp(42px, 12vw, 56px);
+  color: var(--sky-600);
+}
+
+.invite__body {
+  margin: 0 auto;
+  max-width: 420px;
+  font-size: 16.5px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+
+.invite__sign {
+  margin: 16px 0 0;
+  font-size: 34px;
+  color: var(--sky-600);
+}
+
+.note {
+  position: relative;
+  margin: 26px auto 4px;
+  max-width: 360px;
+  padding: 22px 20px 18px;
+  text-align: left;
+  background: #fffdf6;
+  border-radius: 6px;
+  box-shadow: 0 10px 24px rgba(19, 48, 79, 0.12);
+  rotate: -1.5deg;
+}
+
+.note__tape {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 96px;
+  height: 24px;
+  translate: -50% 0;
+  rotate: 3deg;
+  background: rgba(147, 207, 251, 0.6);
+  border-radius: 3px;
+}
+
+.note__label {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sky-600);
+}
+
+.note__text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.6;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* ── Liên hệ ──────────────────────────────────────────── */
+.contact {
+  display: grid;
+  gap: 12px;
+}
+
+.contact__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .contact__item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+}
+
+.contact__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 50%;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--sky-400), var(--sky-600));
+}
+
+.contact__text {
+  display: grid;
+}
+
+.contact__text small {
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+
+/* ── Lời kết ──────────────────────────────────────────── */
+.section--closing {
+  padding-bottom: 40px;
+}
+
+.closing {
+  position: relative;
+  text-align: center;
+  padding-top: 70px;
+}
+
+.closing__planes {
+  position: absolute;
+  inset: -60px 0 auto 0;
+  height: 140px;
+  overflow: hidden;
+}
+
+.closing__plane {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  opacity: 0;
+}
+
+.closing__plane--0 {
+  margin-left: -110px;
+}
+.closing__plane--1 {
+  margin-left: -27px;
+}
+.closing__plane--2 {
+  margin-left: 70px;
+}
+
+.closing.is-in .closing__plane {
+  animation: fly-away 3.2s var(--ease-out) forwards;
+}
+
+.closing.is-in .closing__plane--1 {
+  animation-delay: 0.25s;
+}
+
+.closing.is-in .closing__plane--2 {
+  animation-delay: 0.5s;
+}
+
+@keyframes fly-away {
+  0% {
+    opacity: 0;
+    transform: translate3d(-30px, 40px, 0) scale(0.7) rotate(8deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(140px, -120px, 0) scale(0.5) rotate(-6deg);
+  }
+}
+
+.closing__text {
+  margin: 0 auto;
+  max-width: 400px;
+  font-size: 16.5px;
+  line-height: 1.7;
+  white-space: pre-line;
+  color: var(--ink);
+}
+
+.closing__lead {
+  margin: 0 auto 12px;
+  max-width: 400px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.45;
+  color: var(--sky-700);
+}
+
+.closing__sign {
+  margin: 18px 0 0;
+  font-size: 54px;
+  color: var(--sky-600);
+}
+
+.closing__see {
+  margin: 6px 0 0;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.footer {
+  margin-top: 46px;
+  text-align: center;
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  color: rgba(19, 48, 79, 0.55);
+}

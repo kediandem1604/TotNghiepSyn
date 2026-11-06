@@ -55,6 +55,7 @@ export default {
   },
 
   texts: {
+    heroQuote: 'Mỗi giấc mơ đều bắt đầu từ một bầu trời rộng mở ☁️',
     inviteLead: 'Thân mời',
     inviteBody:
       'đến chung vui cùng Thắm trong ngày lễ tốt nghiệp — khoảnh khắc khép lại những năm tháng giảng đường và mở ra một chặng đường mới. Có mặt của mọi người sẽ là món quà ý nghĩa nhất với Thắm 💙',

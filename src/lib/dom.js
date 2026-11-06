@@ -10,7 +10,7 @@ export function h(tag, props = {}, ...children) {
     if (key === 'class') el.className = value
     else if (key === 'text') el.textContent = value
     else if (key === 'html') el.innerHTML = value
-    else if (key === 'style') Object.assign(el.style, value)
+    else if (key === 'style') for (const [p, v] of Object.entries(value)) p.startsWith('--') ? el.style.setProperty(p, v) : (el.style[p] = v)
     else if (key === 'attrs') for (const [a, v] of Object.entries(value)) v !== false && v != null && el.setAttribute(a, v === true ? '' : v)
     else if (key === 'on') for (const [ev, fn] of Object.entries(value)) el.addEventListener(ev, fn)
     else if (key === 'dataset') Object.assign(el.dataset, value)
