@@ -24,6 +24,12 @@ test('đủ 21 ô theo spec, 4 nhóm đúng thứ tự, không trùng', () => {
   for (const f of SETTINGS_FIELDS) expect(typeof f.label).toBe('string')
 })
 
+test('ô Spotify nói rõ chỉ dùng khi ô YouTube trống; ô Messenger có ví dụ', () => {
+  const byPath = Object.fromEntries(SETTINGS_FIELDS.map((f) => [f.path, f]))
+  expect(byPath['music.spotify'].hint).toMatch(/YouTube/)
+  expect(byPath['contact.messenger'].hint).toMatch(/ngoctham\.ly/)
+})
+
 test('getPath / setPath', () => {
   const o = {}
   setPath(o, 'event.start', '14:00')

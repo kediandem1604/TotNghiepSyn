@@ -42,6 +42,7 @@
   font-size: 16.5px;
   line-height: 1.8;
   color: var(--ink);
+  white-space: pre-line; /* giữ xuống dòng nhập trong tab Cài đặt */
 }
 
 .invite__sign {

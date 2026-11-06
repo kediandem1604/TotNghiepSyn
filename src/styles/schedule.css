@@ -209,4 +209,5 @@
   text-align: center;
   font-weight: 600;
   color: var(--ink-soft);
+  white-space: pre-line;
 }

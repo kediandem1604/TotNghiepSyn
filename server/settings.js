@@ -9,7 +9,23 @@ const TIME = /^([01]\d|2[0-3]):[0-5]\d$/
 const URL_RE = /^https?:\/\/\S+$/i
 const PHONE = /^\+?[\d .]+$/
 
+const FB_LINK = /^(?:https?:\/\/)?(?:www\.|m\.|web\.)?(?:facebook\.com|fb\.com|m\.me)\/(.+)$/i
+const FB_USER = /^[A-Za-z0-9.]+$/
+
 const bad = (message) => new HttpError(400, message)
+
+/** Link Facebook/m.me dán vào → tên người dùng (hoặc số id); không đọc được thì null. */
+function messengerUser(value) {
+  const m = value.match(FB_LINK)
+  let user = value
+  if (m) {
+    const rest = m[1]
+    user = /^profile\.php/i.test(rest)
+      ? new URLSearchParams(rest.split('?')[1] || '').get('id') || ''
+      : rest.split(/[/?#]/)[0]
+  }
+  return FB_USER.test(user) ? user : null
+}
 
 function isRealDate(s) {
   const [y, m, d] = s.split('-').map(Number)
@@ -26,6 +42,11 @@ function checkField(field, raw) {
   if (kind === 'url' && !URL_RE.test(value)) throw bad(`${label} phải bắt đầu bằng http:// hoặc https://`)
   if (kind === 'youtube' && !youtubeInfo(value)) throw bad('Link YouTube không đúng')
   if (kind === 'spotify' && !spotifyInfo(value)) throw bad('Link Spotify không đúng')
+  if (kind === 'messenger') {
+    const user = messengerUser(value)
+    if (!user) throw bad('Messenger: nhập tên người dùng Facebook, vd. ngoctham.ly')
+    return user
+  }
   if (kind === 'phone') {
     const digits = value.replace(/\D/g, '').length
     if (!PHONE.test(value) || digits < 8 || digits > 15) throw bad(`${label} không hợp lệ (8–15 chữ số)`)

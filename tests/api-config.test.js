@@ -83,6 +83,24 @@ test('số điện thoại có +, dấu cách, dấu chấm', async () => {
   expect(res.status).toBe(200)
 })
 
+test.each([
+  ['https://www.facebook.com/ngoctham.ly', 'ngoctham.ly'],
+  ['facebook.com/ngoctham.ly/', 'ngoctham.ly'],
+  ['https://m.me/ngoctham.ly?ref=x', 'ngoctham.ly'],
+  ['https://www.facebook.com/profile.php?id=100012345678', '100012345678'],
+  ['ngoctham.ly', 'ngoctham.ly'],
+])('Messenger dán link %j → lưu tên người dùng %j', async (input, saved) => {
+  const res = await save(valid({ 'contact.messenger': input }))
+  expect(res.status).toBe(200)
+  expect(res.body.settings.contact.messenger).toBe(saved)
+})
+
+test('Messenger không đọc được → 400', async () => {
+  const res = await save(valid({ 'contact.messenger': 'Ngọc Thắm' }))
+  expect(res.status).toBe(400)
+  expect(res.body.error).toBe('Messenger: nhập tên người dùng Facebook, vd. ngoctham.ly')
+})
+
 test('khôi phục mặc định', async () => {
   await save(valid({ 'event.start': '14:00', 'event.end': '16:00' }))
   expect((await call(r, 'DELETE', '/api/admin/config', null, auth)).status).toBe(204)
