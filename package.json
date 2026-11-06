@@ -1,0 +1,24 @@
+{
+  "name": "thiep-tot-nghiep",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "deploy": "npm run build && npx netlify deploy --prod"
+  },
+  "dependencies": {
+    "@fontsource/great-vibes": "^5.3.0",
+    "@fontsource/playfair-display": "^5.3.0",
+    "@fontsource/quicksand": "^5.3.0",
+    "@netlify/blobs": "^11.1.7",
+    "gsap": "^3.15.1"
+  },
+  "devDependencies": {
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
+  }
+}

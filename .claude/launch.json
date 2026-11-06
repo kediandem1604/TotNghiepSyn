@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "thiep", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 5173 },
+    { "name": "thiep-build", "runtimeExecutable": "npm", "runtimeArgs": ["run", "preview", "--", "--port", "4173"], "port": 4173 }
+  ]
+}

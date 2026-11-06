@@ -1,0 +1,46 @@
+:root {
+  /* Bầu trời */
+  --sky-50: #f3faff;
+  --sky-100: #e1f2ff;
+  --sky-200: #bfe3ff;
+  --sky-300: #93cffb;
+  --sky-400: #5fb6f2;
+  --sky-500: #3b9be3;
+  --sky-600: #2378c2;
+  --sky-700: #1a5a96;
+
+  /* Chữ */
+  --ink: #13304f;
+  --ink-soft: #4a6585;
+  --ink-faint: #7f97b2;
+
+  /* Điểm nhấn */
+  --gold: #f2c46d;
+  --gold-deep: #d9a441;
+  --blush: #ffd9e2;
+  --white: #ffffff;
+
+  /* Thẻ kính mây */
+  --card: rgba(255, 255, 255, 0.74);
+  --card-strong: rgba(255, 255, 255, 0.9);
+  --card-border: rgba(255, 255, 255, 0.95);
+  --line: rgba(35, 120, 194, 0.16);
+
+  --shadow-sm: 0 4px 14px rgba(35, 120, 194, 0.1);
+  --shadow: 0 14px 40px rgba(35, 120, 194, 0.16);
+  --shadow-lg: 0 24px 70px rgba(26, 90, 150, 0.22);
+
+  --radius-sm: 12px;
+  --radius: 22px;
+  --radius-lg: 32px;
+
+  --font-script: 'Great Vibes', 'Segoe Script', cursive;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --content-w: 560px;
+  --gutter: 20px;
+}

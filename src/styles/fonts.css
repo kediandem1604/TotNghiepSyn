@@ -1,0 +1,17 @@
+/* Chỉ nạp bảng chữ Latin + tiếng Việt để nhẹ trang */
+@import '@fontsource/great-vibes/latin-400.css';
+@import '@fontsource/great-vibes/vietnamese-400.css';
+@import '@fontsource/playfair-display/latin-500.css';
+@import '@fontsource/playfair-display/vietnamese-500.css';
+@import '@fontsource/playfair-display/latin-600.css';
+@import '@fontsource/playfair-display/vietnamese-600.css';
+@import '@fontsource/playfair-display/latin-400-italic.css';
+@import '@fontsource/playfair-display/vietnamese-400-italic.css';
+@import '@fontsource/quicksand/latin-400.css';
+@import '@fontsource/quicksand/vietnamese-400.css';
+@import '@fontsource/quicksand/latin-500.css';
+@import '@fontsource/quicksand/vietnamese-500.css';
+@import '@fontsource/quicksand/latin-600.css';
+@import '@fontsource/quicksand/vietnamese-600.css';
+@import '@fontsource/quicksand/latin-700.css';
+@import '@fontsource/quicksand/vietnamese-700.css';
