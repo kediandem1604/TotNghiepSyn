@@ -8,19 +8,37 @@ import { guestLink, previewLink, inviteText, copyText, canShare, shareInvite } f
 
 const norm = (s) => stripDiacritics(s).toLowerCase()
 
+const actionBtn = (icon, label, onClick, compact = false) =>
+  h('button', {
+    class: 'btn btn--ghost btn--small',
+    attrs: { type: 'button', title: label, 'aria-label': label },
+    html: `${icon}${compact ? '' : `<span>${label}</span>`}`,
+    on: { click: onClick },
+  })
+
+/** Mở thiệp QR (tải phần vẽ QR khi cần). `guest` null = link chung. */
+async function showQr(guest, content) {
+  try {
+    const { openQrCard } = await import('./qr-card.js')
+    await openQrCard({
+      name: guest ? displayName(guest) : null,
+      slug: guest?.slug ?? null,
+      link: guest ? guestLink(guest.slug) : `${window.location.origin}/`,
+      content,
+    })
+  } catch (err) {
+    console.error(err)
+    toast('Không tạo được ảnh QR, bạn thử lại nhé', 'error')
+  }
+}
+
 /** Nút copy/chia sẻ link; `content` là nội dung đã ghép cài đặt (mẫu tin nhắn, ngày giờ). */
 function linkActions(guest, content, { compact = false } = {}) {
-  const btn = (icon, label, onClick, cls = '') =>
-    h('button', {
-      class: `btn btn--ghost btn--small ${cls}`,
-      attrs: { type: 'button', title: label, 'aria-label': label },
-      html: `${icon}${compact ? '' : `<span>${label}</span>`}`,
-      on: { click: onClick },
-    })
   return [
-    btn(icons.copy, 'Copy link', () => copyText(guestLink(guest.slug), 'Đã copy link')),
-    btn(icons.chat, 'Copy kèm lời mời', () => copyText(inviteText(guest, content), 'Đã copy lời mời')),
-    canShare() ? btn(icons.share, 'Chia sẻ', () => shareInvite(guest, content)) : null,
+    actionBtn(icons.copy, 'Copy link', () => copyText(guestLink(guest.slug), 'Đã copy link'), compact),
+    actionBtn(icons.chat, 'Copy kèm lời mời', () => copyText(inviteText(guest, content), 'Đã copy lời mời'), compact),
+    actionBtn(icons.qr, 'Ảnh QR', () => showQr(guest, content), compact),
+    canShare() ? actionBtn(icons.share, 'Chia sẻ', () => shareInvite(guest, content), compact) : null,
   ]
 }
 
@@ -188,8 +206,22 @@ export function renderGuestsTab(root, state) {
     )
   }
 
+  // Link chung (không tên): để đăng mạng xã hội hoặc in ra.
+  const generalLink = `${window.location.origin}/`
+  const general = h('section', { class: 'card general-link' },
+    h('div', { class: 'general-link__text' },
+      h('b', { text: 'Link chung (không tên)' }),
+      h('small', { class: 'muted', text: generalLink.replace(/^https?:\/\//, '') }),
+    ),
+    h('div', { class: 'general-link__actions' },
+      actionBtn(icons.copy, 'Copy link', () => copyText(generalLink, 'Đã copy link'), true),
+      actionBtn(icons.qr, 'Ảnh QR', () => showQr(null, state.content)),
+    ),
+  )
+
   root.replaceChildren(
     addForm,
+    general,
     h('section', { class: 'card' },
       h('div', { class: 'list-head' }, h('h2', { class: 'card-title', text: 'Danh sách khách' }), listCount),
       search,
