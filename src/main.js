@@ -3,6 +3,7 @@ import './styles/tokens.css'
 import './styles/base.css'
 import './styles/sky.css'
 import './styles/sections.css'
+import './styles/cover.css'
 
 import content from '../content.js'
 import { api } from './lib/api.js'
@@ -12,6 +13,8 @@ import { displayName } from './lib/text.js'
 import { initSky } from './fx/sky.js'
 import { initReveal } from './fx/reveal.js'
 import { createMusic } from './sections/music.js'
+import { createConfetti } from './fx/confetti.js'
+import { renderCover } from './sections/cover.js'
 
 // Thứ tự các phần trên trang. Phần nào chưa có module thì bỏ qua.
 const SECTIONS = [
@@ -72,6 +75,7 @@ async function boot() {
     },
   }
 
+  ctx.fx.burst = createConfetti().burst
   const music = createMusic(content.music, { reducedMotion })
   ctx.onOpen(() => music.start())
 
@@ -79,12 +83,19 @@ async function boot() {
   ctx.displayName = displayName(ctx.guest)
   if (ctx.guest && !route.preview) ctx.onOpen(() => api.markOpened(ctx.guest.slug).catch(() => {}))
 
+  try {
+    renderCover(document.body, ctx)
+  } catch (err) {
+    console.error('[thiệp] Lỗi khi dựng bìa:', err)
+    document.documentElement.classList.remove('is-locked')
+    ctx.emitOpen()
+  }
+
   const page = h('main', { class: 'page', id: 'trang' })
   document.getElementById('app').append(page)
   for (const [id, render] of SECTIONS) mountSection(page, id, render, ctx)
 
   initReveal(page)
-  if (!SECTIONS.some(([id]) => id === 'cover')) ctx.emitOpen()
 }
 
 boot()
