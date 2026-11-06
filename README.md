@@ -90,9 +90,9 @@ Khách mời, lời chúc và xác nhận được lưu trên Netlify (Netlify B
 
 ## Gửi thiệp
 
-1. Vào trang quản lí và nhập tên khách. Xưng hô (Anh, Chị, Bạn…) và lời nhắn riêng có thể bỏ trống.
+1. Vào trang quản lí và nhập tên khách. Tên ghi thế nào thì thiệp hiện đúng như vậy; lời nhắn riêng có thể bỏ trống.
 2. Bấm **Copy kèm lời mời** rồi dán vào Zalo/Messenger. Trên điện thoại có thể bấm **Chia sẻ**.
-3. Có nhiều người thì bấm **Thêm nhiều người cùng lúc**, dán danh sách mỗi dòng một tên. Muốn kèm xưng hô thì viết `Anh | Minh Trí`.
+3. Có nhiều người thì bấm **Thêm nhiều người cùng lúc**, dán danh sách mỗi dòng một tên.
 4. Muốn xem trước thiệp của ai thì bấm biểu tượng 👁. Mở bằng nút này **không** bị tính là khách đã mở.
 
 Link không có tên (`https://ten-trang.netlify.app`) vẫn mở được, thiệp ghi "Thân mời bạn". Dùng link này khi đăng lên mạng xã hội.

@@ -65,7 +65,7 @@ export function renderRsvpTab(root, state) {
       h('section', { class: 'card' },
         h('div', { class: 'list-head' }, h('h2', { class: 'card-title', text: 'Khách mời đã trả lời' }), h('span', { class: 'muted', text: `${fromGuests.length} người` })),
         fromGuests.length
-          ? h('div', { class: 'rsvp-list' }, fromGuests.map((g) => row([g.title, g.name].filter(Boolean).join(' '), g.rsvp.attending, g.rsvp.at, `/${g.slug}`)))
+          ? h('div', { class: 'rsvp-list' }, fromGuests.map((g) => row(g.name,g.rsvp.attending, g.rsvp.at, `/${g.slug}`)))
           : h('p', { class: 'empty', text: 'Chưa có khách mời nào trả lời' }),
       ),
       h('section', { class: 'card' },

@@ -1,29 +1,12 @@
 import { h, toast } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
-import { displayName, parseBulkLine } from '../lib/text.js'
+import { displayName } from '../lib/text.js'
 import { formatWishTime } from '../lib/time.js'
 import { stripDiacritics } from '../../shared/slug.js'
 import { LIMITS } from '../../shared/constants.js'
 import { guestLink, previewLink, inviteText, copyText, canShare, shareInvite } from './share.js'
 
-const TITLES = ['Anh', 'Chị', 'Em', 'Bạn', 'Cô', 'Chú', 'Thầy', 'Gia đình']
 const norm = (s) => stripDiacritics(s).toLowerCase()
-
-let datalistAdded = false
-function titleInput(value = '') {
-  if (!datalistAdded) {
-    document.body.append(h('datalist', { id: 'xung-ho' }, TITLES.map((t) => h('option', { value: t }))))
-    datalistAdded = true
-  }
-  return h('input', {
-    class: 'field',
-    type: 'text',
-    value,
-    placeholder: 'Xưng hô (Anh, Chị, Bạn…)',
-    maxLength: LIMITS.title,
-    attrs: { list: 'xung-ho', 'aria-label': 'Xưng hô' },
-  })
-}
 
 function linkActions(guest, { compact = false } = {}) {
   const btn = (icon, label, onClick, cls = '') =>
@@ -43,18 +26,17 @@ function linkActions(guest, { compact = false } = {}) {
 export function renderGuestsTab(root, state) {
   // ── Thêm khách ────────────────────────────────────────
   const name = h('input', { class: 'field', type: 'text', placeholder: 'Tên khách, vd. Tiến Quốc', maxLength: LIMITS.guestName, attrs: { 'aria-label': 'Tên khách' } })
-  const title = titleInput()
   const note = h('textarea', { class: 'field field--note', placeholder: 'Lời nhắn riêng cho người này (không bắt buộc)', maxLength: LIMITS.note, attrs: { rows: '2', 'aria-label': 'Lời nhắn riêng' } })
   const bulk = h('textarea', {
     class: 'field',
-    placeholder: 'Mỗi dòng một người, ví dụ:\nTiến Quốc\nAnh | Minh Trí\nChị | Tường Vy',
+    placeholder: 'Mỗi dòng một người, ví dụ:\nTiến Quốc\nMinh Trí\nTường Vy',
     attrs: { rows: '6', 'aria-label': 'Danh sách khách' },
   })
   const result = h('div', { class: 'created' })
   let bulkMode = false
 
-  const single = h('div', { class: 'add__fields' }, name, title, note)
-  const many = h('div', { class: 'add__fields', hidden: true }, bulk, h('p', { class: 'muted add__hint', text: 'Muốn kèm xưng hô thì viết "Xưng hô | Tên". Tối đa 200 người một lần.' }))
+  const single = h('div', { class: 'add__fields' }, name, note)
+  const many = h('div', { class: 'add__fields', hidden: true }, bulk, h('p', { class: 'muted add__hint', text: 'Tên ghi thế nào thì thiệp hiện đúng như vậy. Tối đa 200 người một lần.' }))
   const modeBtn = h('button', {
     class: 'linkish',
     attrs: { type: 'button' },
@@ -82,9 +64,9 @@ export function renderGuestsTab(root, state) {
   addForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     const guests = bulkMode
-      ? bulk.value.split('\n').map((l) => l.trim()).filter(Boolean).map(parseBulkLine).filter((g) => g.name)
+      ? bulk.value.split('\n').map((l) => l.trim()).filter(Boolean).map((l) => ({ name: l }))
       : name.value.trim()
-        ? [{ name: name.value.trim(), title: title.value.trim(), note: note.value.trim() }]
+        ? [{ name: name.value.trim(), note: note.value.trim() }]
         : []
     if (!guests.length) {
       ;(bulkMode ? bulk : name).focus()
@@ -94,7 +76,6 @@ export function renderGuestsTab(root, state) {
     try {
       const { created } = await state.api.addGuests(guests)
       name.value = note.value = bulk.value = ''
-      title.value = ''
       result.replaceChildren(
         h('p', { class: 'created__title', text: `Đã tạo ${created.length} link mời 🎉` }),
         ...created.map((g) =>
@@ -168,11 +149,10 @@ export function renderGuestsTab(root, state) {
 
   function editRow(g) {
     const n = h('input', { class: 'field', type: 'text', value: g.name, maxLength: LIMITS.guestName, attrs: { 'aria-label': 'Tên khách' } })
-    const t = titleInput(g.title)
     const no = h('textarea', { class: 'field field--note', value: g.note, maxLength: LIMITS.note, attrs: { rows: '2', 'aria-label': 'Lời nhắn riêng', placeholder: 'Lời nhắn riêng' } })
     const form = h('form', { class: 'guest guest--edit' },
       h('p', { class: 'muted', text: `Đang sửa /${g.slug} (link giữ nguyên)` }),
-      n, t, no,
+      n, no,
       h('div', { class: 'guest__actions' },
         h('button', { class: 'btn btn--primary btn--small', attrs: { type: 'submit' }, html: `${icons.check}<span>Lưu</span>` }),
         h('button', { class: 'btn btn--ghost btn--small', attrs: { type: 'button' }, text: 'Huỷ', on: { click: () => form.replaceWith(guestRow(g)) } }),
@@ -181,7 +161,8 @@ export function renderGuestsTab(root, state) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault()
       try {
-        await state.api.updateGuest(g.slug, { name: n.value, title: t.value, note: no.value })
+        // title: '' xoá xưng hô cũ còn lưu từ trước (thiệp không dùng nữa).
+        await state.api.updateGuest(g.slug, { name: n.value, title: '', note: no.value })
         toast('Đã lưu', 'success')
         await state.reload()
       } catch (err) {
@@ -197,7 +178,7 @@ export function renderGuestsTab(root, state) {
     if (background && list.querySelector('.guest--edit')) return
     const guests = [...state.data.guests].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     const q = norm(search.value.trim())
-    const shown = q ? guests.filter((g) => norm(`${g.title} ${g.name} ${g.slug}`).includes(q)) : guests
+    const shown = q ? guests.filter((g) => norm(`${g.name} ${g.slug}`).includes(q)) : guests
     listCount.textContent = q ? `${shown.length}/${guests.length} khách` : `${guests.length} khách`
     list.replaceChildren(
       ...(shown.length
