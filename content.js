@@ -24,20 +24,26 @@ export default {
 
   // Địa điểm
   venue: {
-    name: '', // vd. 'Hội trường A — Trường Đại học ...'
-    address: '', // vd. '59C Nguyễn Đình Chiểu, Quận 3, TP.HCM'
+    name: 'Trường Đại học Khoa học Tự nhiên – ĐHQG TP.HCM', // thêm tên hội trường nếu có
+    address: '227 Nguyễn Văn Cừ, Chợ Quán, TP. Hồ Chí Minh',
     // Chữ để tìm trên Google Maps (tên trường + địa chỉ là chắc nhất).
     // Có giá trị thì trang hiện bản đồ nhúng.
-    mapQuery: '',
+    mapQuery: 'Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM, 227 Nguyễn Văn Cừ, Chợ Quán, Hồ Chí Minh',
     // Link chỉ đường (tuỳ chọn). Để trống thì tự tạo từ mapQuery.
     // Lấy link: mở Google Maps → tìm trường → Chia sẻ → Sao chép đường liên kết.
-    directionsUrl: '',
+    directionsUrl: 'https://maps.app.goo.gl/XM9tDsqNQs2nFzrj6',
   },
 
-  // Nhạc nền: chép file .mp3 vào public/nhac/ rồi ghi đường dẫn, vd. '/nhac/nhac-nen.mp3'
+  // Nhạc nền — chọn 1 trong 2:
+  // • File nhạc (khuyên dùng): chép .mp3 vào public/nhac/ rồi ghi src, vd. '/nhac/nhac-nen.mp3'.
+  //   Phát trọn bài, tự bật khi khách bấm "Mở thiệp" (kể cả iPhone).
+  // • Link Spotify: dán vào spotify. Thiệp hiện trình phát Spotify ở phần "Giai điệu".
+  //   Khách chưa đăng nhập Spotify chỉ nghe được 30 giây; iPhone thường phải bấm ▶ trong trình phát.
+  // Có cả hai thì dùng file nhạc.
   music: {
     src: '',
-    title: '',
+    spotify: 'https://open.spotify.com/track/5w2XLlsTxumdmb6rhhSC3x',
+    title: '佩奇的夏天',
   },
 
   // Ảnh: chép vào public/anh/ rồi ghi đường dẫn, vd. '/anh/chan-dung.jpg'

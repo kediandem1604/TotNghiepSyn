@@ -37,7 +37,7 @@ Mọi chữ trên thiệp nằm trong **`content.js`**, mỗi dòng đều có c
 | Muốn thêm | Làm thế này |
 |---|---|
 | **Trường / địa điểm** | Điền `venue.name`, `venue.address`, `venue.mapQuery`. `mapQuery` là chữ để tìm trên Google Maps, ví dụ `'Trường Đại học Kinh tế TP.HCM, 59C Nguyễn Đình Chiểu'`. Có `mapQuery` thì thiệp hiện bản đồ. |
-| **Nhạc nền** | Chép file `.mp3` vào `public/nhac/`, rồi ghi `music.src: '/nhac/ten-file.mp3'`. Nên dùng file nhỏ hơn 5 MB. |
+| **Nhạc nền** | **Cách 1 (khuyên dùng):** chép file `.mp3` vào `public/nhac/`, rồi ghi `music.src: '/nhac/ten-file.mp3'`. Nên dùng file nhỏ hơn 5 MB; nhạc phát trọn bài khi khách bấm *Mở thiệp*. **Cách 2:** dán link bài hát Spotify vào `music.spotify`. Thiệp hiện trình phát Spotify ở phần *Giai điệu*, nhưng khách chưa đăng nhập Spotify chỉ nghe được 30 giây, và trên iPhone thường phải bấm ▶ trong trình phát. Có cả hai thì thiệp dùng file `.mp3`. |
 | **Ảnh chân dung** | Chép ảnh vào `public/anh/`, ghi `photos.hero: '/anh/chan-dung.jpg'`. Nên dùng ảnh dọc, dài khoảng 1600px. |
 | **Album ảnh** | `photos.gallery: ['/anh/1.jpg', '/anh/2.jpg']`. |
 | **Ngành, trường** | `graduate.degree`, `graduate.major`, `graduate.school`. |

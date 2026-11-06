@@ -25,6 +25,7 @@ import { renderCover } from './sections/cover.js'
 import { renderHero } from './sections/hero.js'
 import { renderInvite } from './sections/invite.js'
 import { renderSchedule } from './sections/schedule.js'
+import { renderSong } from './sections/song.js'
 import { renderVenue } from './sections/venue.js'
 import { renderGallery } from './sections/gallery.js'
 import { renderRsvp } from './sections/rsvp.js'
@@ -37,6 +38,7 @@ import { renderClosing } from './sections/closing.js'
 const SECTIONS = [
   ['hero', renderHero],
   ['invite', renderInvite],
+  ['song', renderSong],
   ['schedule', renderSchedule],
   ['venue', renderVenue],
   ['gallery', renderGallery],
@@ -114,6 +116,7 @@ async function boot() {
   ctx.fx.burst = createConfetti().burst
   ctx.fx.floatEmoji = floatEmoji
   const music = createMusic(content.music, { reducedMotion })
+  ctx.music = music
   ctx.onTap(() => music.start())
 
   // Bìa hiện ngay; tên khách được điền vào khi tải xong.
