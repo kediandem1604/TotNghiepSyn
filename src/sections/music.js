@@ -9,6 +9,20 @@ const DISC = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"
   <circle cx="24" cy="24" r="2.2" fill="#fff"/>
 </svg>`
 
+/** Rời tab/app thì dừng nhạc; quay lại thì phát tiếp nếu trước đó đang phát. */
+export function pauseWhenHidden(audio, doc = document) {
+  let resume = false
+  doc.addEventListener('visibilitychange', () => {
+    if (doc.hidden) {
+      resume = !audio.paused
+      if (resume) audio.pause()
+    } else if (resume) {
+      resume = false
+      audio.play()?.catch?.(() => {})
+    }
+  })
+}
+
 /** Nút nhạc nổi góc dưới trái. Không có file nhạc hoặc file lỗi → nút ẩn. */
 export function createMusic(music, { reducedMotion = false } = {}) {
   const noop = { start: async () => {}, toggle() {}, el: null }
@@ -70,5 +84,6 @@ export function createMusic(music, { reducedMotion = false } = {}) {
   }
 
   btn.addEventListener('click', toggle)
+  pauseWhenHidden(audio)
   return { start, toggle, el: btn }
 }

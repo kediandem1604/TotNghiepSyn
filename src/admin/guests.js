@@ -4,7 +4,7 @@ import { displayName, parseBulkLine } from '../lib/text.js'
 import { formatWishTime } from '../lib/time.js'
 import { stripDiacritics } from '../../shared/slug.js'
 import { LIMITS } from '../../shared/constants.js'
-import { guestLink, inviteText, copyText, canShare, shareInvite } from './share.js'
+import { guestLink, previewLink, inviteText, copyText, canShare, shareInvite } from './share.js'
 
 const TITLES = ['Anh', 'Chị', 'Em', 'Bạn', 'Cô', 'Chú', 'Thầy', 'Gia đình']
 const norm = (s) => stripDiacritics(s).toLowerCase()
@@ -99,7 +99,7 @@ export function renderGuestsTab(root, state) {
         h('p', { class: 'created__title', text: `Đã tạo ${created.length} link mời 🎉` }),
         ...created.map((g) =>
           h('div', { class: 'created__item' },
-            h('div', { class: 'created__info' }, h('b', { text: displayName(g) }), h('a', { href: guestLink(g.slug), target: '_blank', rel: 'noopener', text: guestLink(g.slug).replace(/^https?:\/\//, '') })),
+            h('div', { class: 'created__info' }, h('b', { text: displayName(g) }), h('a', { href: previewLink(g.slug), target: '_blank', rel: 'noopener', title: 'Mở xem thử (không tính là khách đã mở)', text: guestLink(g.slug).replace(/^https?:\/\//, '') })),
             h('div', { class: 'created__actions' }, linkActions(g, { compact: created.length > 1 })),
           ),
         ),
@@ -129,7 +129,7 @@ export function renderGuestsTab(root, state) {
       h('div', { class: 'guest__top' },
         h('div', { class: 'guest__who' },
           h('b', { class: 'guest__name', text: displayName(g) }),
-          h('a', { class: 'guest__link', href: guestLink(g.slug), target: '_blank', rel: 'noopener', text: `/${g.slug}` }),
+          h('a', { class: 'guest__link', href: previewLink(g.slug), target: '_blank', rel: 'noopener', title: 'Mở xem thử (không tính là khách đã mở)', text: `/${g.slug}` }),
         ),
         h('div', { class: 'guest__badges' },
           opened
@@ -142,7 +142,7 @@ export function renderGuestsTab(root, state) {
       g.note ? h('p', { class: 'guest__note', text: `“${g.note}”` }) : null,
       h('div', { class: 'guest__actions' },
         ...linkActions(g, { compact: true }),
-        h('a', { class: 'btn btn--ghost btn--small', href: `/${g.slug}?xem-thu=1`, target: '_blank', rel: 'noopener', attrs: { title: 'Xem thử (không tính là đã mở)', 'aria-label': 'Xem thử' }, html: icons.eye }),
+        h('a', { class: 'btn btn--ghost btn--small', href: previewLink(g.slug), target: '_blank', rel: 'noopener', attrs: { title: 'Xem thử (không tính là đã mở)', 'aria-label': 'Xem thử' }, html: icons.eye }),
         h('button', { class: 'btn btn--ghost btn--small', attrs: { type: 'button', title: 'Sửa', 'aria-label': 'Sửa' }, html: icons.edit, on: { click: () => row.replaceWith(editRow(g)) } }),
         h('button', {
           class: 'btn btn--ghost btn--small btn--danger',
@@ -192,7 +192,9 @@ export function renderGuestsTab(root, state) {
     return form
   }
 
-  function paintList() {
+  function paintList({ background = false } = {}) {
+    // Tự làm mới khi quay lại tab: không xoá form đang sửa dở.
+    if (background && list.querySelector('.guest--edit')) return
     const guests = [...state.data.guests].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     const q = norm(search.value.trim())
     const shown = q ? guests.filter((g) => norm(`${g.title} ${g.name} ${g.slug}`).includes(q)) : guests

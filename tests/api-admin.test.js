@@ -21,6 +21,14 @@ test('thiếu/sai mật khẩu, chưa đặt mật khẩu', async () => {
   expect(res.body.error).toBe('Chưa đặt mật khẩu quản lí')
 })
 
+test('mật khẩu có dấu tiếng Việt (trình duyệt gửi dạng mã hoá URL)', async () => {
+  const r2 = createRouter({ store: createMemoryStore(), adminPassword: 'Thắm 2026' })
+  const bearer = (p) => ({ authorization: `Bearer ${encodeURIComponent(p)}` })
+  expect((await call(r2, 'GET', '/api/admin/overview', null, bearer('Thắm 2026'))).status).toBe(200)
+  expect((await call(r2, 'GET', '/api/admin/overview', null, bearer('Tham 2026'))).status).toBe(401)
+  expect((await call(r2, 'GET', '/api/admin/overview', null, { authorization: 'Bearer %E0%A4%A' })).status).toBe(401)
+})
+
 test('thêm hàng loạt: tên trùng nhau và trùng khách cũ ra slug khác nhau', async () => {
   await call(r, 'POST', '/api/admin/guests', { guests: [{ name: 'Minh Anh' }] }, auth)
   const res = await call(r, 'POST', '/api/admin/guests', { guests: [{ name: 'Minh Anh', title: 'Chị' }, { name: 'minh anh' }] }, auth)

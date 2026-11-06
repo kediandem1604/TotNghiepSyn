@@ -39,7 +39,7 @@ export const api = {
 }
 
 export function createAdminApi(password) {
-  const auth = { authorization: `Bearer ${password}` }
+  const auth = { authorization: `Bearer ${encodeURIComponent(password)}` }
   return {
     overview: () => request('GET', '/admin/overview', null, auth),
     addGuests: (guests) => request('POST', '/admin/guests', { guests }, auth),

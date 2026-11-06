@@ -3,6 +3,7 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { h } from '../lib/dom.js'
 import { capSvg, planeSvg } from '../lib/icons.js'
 import { eventRange, formatDateDots } from '../lib/time.js'
+import { displayName } from '../lib/text.js'
 
 gsap.registerPlugin(MotionPathPlugin)
 if (import.meta.env.DEV) window.__gsap = gsap // chỉ để kiểm tra khi dev
@@ -26,12 +27,19 @@ export function renderCover(host, ctx) {
     h('span', { class: 'letter__title', text: 'Lễ Tốt Nghiệp' }),
     h('span', { class: 'letter__cap', html: capSvg(30, '#2378c2') }),
   )
+  // Link riêng: để trống tên cho tới khi tải xong (tránh nháy "Bạn thân mến").
+  const FALLBACK = 'Bạn thân mến'
+  const guestName = h('span', { class: 'envelope__guest script', text: ctx.route.slug ? ' ' : FALLBACK })
+  ctx.guestReady.then((guest) => {
+    guestName.textContent = guest ? displayName(guest) : FALLBACK
+    guestName.classList.add('is-in')
+  })
   const envelope = h('div', { class: 'envelope' },
     h('div', { class: 'envelope__back' }),
     letter,
     h('div', { class: 'envelope__front' },
       h('span', { class: 'envelope__to', text: 'Thân gửi' }),
-      h('span', { class: 'envelope__guest script', text: ctx.guest ? ctx.displayName : 'Bạn thân mến' }),
+      guestName,
     ),
     flap,
     seal,
@@ -97,6 +105,7 @@ export function renderCover(host, ctx) {
     opened = true
     openBtn.disabled = true
     idle?.kill()
+    ctx.emitTap() // phát nhạc ngay trong cú chạm (iPhone chặn nếu gọi muộn hơn)
 
     const finish = () => {
       document.documentElement.classList.remove('is-locked')

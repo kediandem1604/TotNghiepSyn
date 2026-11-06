@@ -72,6 +72,11 @@ Dùng luôn tài khoản Netlify bạn đã có cho trang kỷ niệm.
    npm run deploy
    ```
 5. Netlify in ra link dạng `https://ngoctham-totnghiep.netlify.app`. Vào `…/quan-li`, đăng nhập rồi thêm khách.
+6. Kiểm tra nhanh phần lưu dữ liệu. Thay bằng link của bạn; kết quả phải là chữ dạng `{"wishes":[...]}`, không phải trang HTML:
+   ```bash
+   curl https://ngoctham-totnghiep.netlify.app/api/wishes
+   ```
+7. Mở thử thiệp trên **iPhone** (Safari và trong Zalo) để chắc nhạc phát khi bấm *Mở thiệp*.
 
 **Những lần sau** (sửa `content.js`, thêm ảnh, đổi nhạc):
 

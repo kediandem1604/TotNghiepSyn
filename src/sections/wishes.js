@@ -2,10 +2,13 @@ import { h, sectionHead, toast, whenNear, rand } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
 import { formatWishTime } from '../lib/time.js'
 import { LIMITS, REACTIONS, WISH_EMOJIS } from '../../shared/constants.js'
+import { createHoldTap } from '../lib/hold-tap.js'
+import { nextFlushDelay } from '../lib/reactions.js'
 
 const POLL_MS = 15000
 const FLUSH_MS = 1500
 const HOLD_MS = 125
+const HOLD_DELAY_MS = 250
 const NAME_KEY = 'thiep:name'
 
 const store = {
@@ -183,16 +186,18 @@ export function renderWishes(root, ctx) {
       }
     }
     if (!Object.keys(batch).length) return
+    let ok = false
     try {
       const res = await api.sendReactions(batch)
       Object.assign(known, res.counts)
+      ok = true
     } catch {
       for (const [k, n] of Object.entries(batch)) pending[k] += n // gửi lại lần sau
-      scheduleFlush(5000)
     } finally {
       for (const k of Object.keys(batch)) inFlight[k] = 0
       paintReactions()
-      if (Object.values(pending).some(Boolean)) scheduleFlush(300)
+      const delay = nextFlushDelay({ ok, hasPending: Object.values(pending).some(Boolean) })
+      if (delay !== null) scheduleFlush(delay)
     }
   }
 
@@ -213,21 +218,19 @@ export function renderWishes(root, ctx) {
     h('div', { class: 'reactions__row' },
       REACTIONS.map((r) => {
         countEls[r.key] = h('span', { class: 'reaction__count', text: '0' })
-        let holdTimer
-        const stop = () => clearInterval(holdTimer)
+        // Chạm nhanh = 1 lần, giữ = bay liên tục; vuốt để cuộn trang thì không tính.
+        const press = createHoldTap(() => tap(r), { holdDelay: HOLD_DELAY_MS, interval: HOLD_MS })
         const btn = h('button', {
           class: 'reaction',
           attrs: { type: 'button', 'aria-label': r.label },
           on: {
             pointerdown(e) {
               if (e.button !== undefined && e.button !== 0) return
-              tap(r)
-              stop()
-              holdTimer = setInterval(() => tap(r), HOLD_MS)
+              press.down()
             },
-            pointerup: stop,
-            pointerleave: stop,
-            pointercancel: stop,
+            pointerup: () => press.up(),
+            pointerleave: () => press.cancel(),
+            pointercancel: () => press.cancel(),
             contextmenu: (e) => e.preventDefault(),
             click(e) {
               if (e.detail === 0) tap(r) // bấm bằng bàn phím

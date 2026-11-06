@@ -4,6 +4,9 @@ import { displayName, fillTemplate } from '../lib/text.js'
 
 export const guestLink = (slug) => `${window.location.origin}/${slug}`
 
+/** Link để người gửi tự mở xem — không tính là khách đã mở thiệp. */
+export const previewLink = (slug) => `/${slug}?xem-thu=1`
+
 export const inviteText = (guest) =>
   fillTemplate(content.texts.shareTemplate, { ten: displayName(guest), link: guestLink(guest.slug) })
 

@@ -16,6 +16,7 @@ import { api } from './lib/api.js'
 import { h, prefersReducedMotion } from './lib/dom.js'
 import { parseRoute } from './lib/route.js'
 import { displayName } from './lib/text.js'
+import { withTimeout } from './lib/async.js'
 import { initSky } from './fx/sky.js'
 import { initReveal } from './fx/reveal.js'
 import { createMusic } from './sections/music.js'
@@ -57,6 +58,8 @@ function mountSection(page, id, render, ctx) {
   }
 }
 
+const GUEST_TIMEOUT_MS = 2500
+
 async function loadGuest(slug) {
   if (!slug) return null
   try {
@@ -76,7 +79,16 @@ async function boot() {
   const route = parseRoute(location)
   initSky({ reducedMotion })
 
+  const safe = (cb) => {
+    try {
+      cb()
+    } catch (err) {
+      console.error(err)
+    }
+  }
   const openCallbacks = []
+  const tapCallbacks = []
+  let opened = false
   const ctx = {
     content,
     route,
@@ -84,30 +96,27 @@ async function boot() {
     reducedMotion,
     guest: null,
     displayName: displayName(null),
-    guestReady: loadGuest(route.slug),
+    // Mạng chậm/treo thì sau 2,5 giây dùng thiệp chung, không để khách chờ mãi.
+    guestReady: withTimeout(loadGuest(route.slug), GUEST_TIMEOUT_MS).catch(() => null),
     fx: { burst() {}, floatEmoji() {} },
-    onOpen: (cb) => openCallbacks.push(cb),
+    /** Chạy khi thiệp đã mở xong (đăng ký sau lúc mở thì chạy ngay). */
+    onOpen: (cb) => (opened ? safe(cb) : openCallbacks.push(cb)),
     emitOpen() {
+      opened = true
       document.documentElement.classList.add('is-opened')
-      openCallbacks.splice(0).forEach((cb) => {
-        try {
-          cb()
-        } catch (err) {
-          console.error(err)
-        }
-      })
+      openCallbacks.splice(0).forEach(safe)
     },
+    /** Chạy ngay trong cú chạm "Mở thiệp" — iPhone chỉ cho phát nhạc lúc này. */
+    onTap: (cb) => tapCallbacks.push(cb),
+    emitTap: () => tapCallbacks.splice(0).forEach(safe),
   }
 
   ctx.fx.burst = createConfetti().burst
   ctx.fx.floatEmoji = floatEmoji
   const music = createMusic(content.music, { reducedMotion })
-  ctx.onOpen(() => music.start())
+  ctx.onTap(() => music.start())
 
-  ctx.guest = await ctx.guestReady
-  ctx.displayName = displayName(ctx.guest)
-  if (ctx.guest && !route.preview) ctx.onOpen(() => api.markOpened(ctx.guest.slug).catch(() => {}))
-
+  // Bìa hiện ngay; tên khách được điền vào khi tải xong.
   try {
     renderCover(document.body, ctx)
   } catch (err) {
@@ -115,6 +124,10 @@ async function boot() {
     document.documentElement.classList.remove('is-locked')
     ctx.emitOpen()
   }
+
+  ctx.guest = await ctx.guestReady
+  ctx.displayName = displayName(ctx.guest)
+  if (ctx.guest && !route.preview) ctx.onOpen(() => api.markOpened(ctx.guest.slug).catch(() => {}))
 
   const page = h('main', { class: 'page', id: 'trang' })
   document.getElementById('app').append(page)

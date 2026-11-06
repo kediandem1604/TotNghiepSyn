@@ -91,11 +91,11 @@ function dashboard(password, data) {
     current = render(panel, state)
   }
 
-  state.reload = async () => {
+  state.reload = async ({ background = false } = {}) => {
     try {
       state.data = await api.overview()
       statsWrap.replaceChildren(stats(state.data))
-      current?.update()
+      current?.update({ background })
     } catch (err) {
       if (err.status === 401) return logout('Mật khẩu đã đổi, bạn đăng nhập lại nhé')
       toast(err.message, 'error')
@@ -108,7 +108,7 @@ function dashboard(password, data) {
     renderLogin(root, start, message)
   }
 
-  const onVisible = () => !document.hidden && state.reload()
+  const onVisible = () => !document.hidden && state.reload({ background: true })
   document.addEventListener('visibilitychange', onVisible)
 
   const date = formatDateDots(eventRange(content.event).start)

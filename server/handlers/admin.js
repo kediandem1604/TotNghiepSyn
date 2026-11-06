@@ -11,7 +11,16 @@ const sha = (s) => createHash('sha256').update(String(s)).digest()
 function requireAdmin(req, adminPassword) {
   if (!adminPassword) throw new HttpError(503, 'Chưa đặt mật khẩu quản lí')
   const header = req.headers.get('authorization') || ''
-  const given = header.startsWith('Bearer ') ? header.slice(7) : null
+  // Trình duyệt gửi mật khẩu dạng mã hoá URL (header chỉ nhận ký tự Latin-1,
+  // nên mật khẩu có dấu tiếng Việt phải mã hoá mới gửi được).
+  let given = header.startsWith('Bearer ') ? header.slice(7) : null
+  if (given !== null) {
+    try {
+      given = decodeURIComponent(given)
+    } catch {
+      /* chuỗi mã hoá hỏng: so sánh nguyên văn (sẽ sai mật khẩu) */
+    }
+  }
   // So sánh băm SHA-256 để thời gian so sánh không lộ độ dài/mật khẩu.
   if (given === null || !timingSafeEqual(sha(given), sha(adminPassword))) {
     throw new HttpError(401, 'Sai mật khẩu')
