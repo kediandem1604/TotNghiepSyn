@@ -42,6 +42,16 @@ export function renderHero(root, ctx) {
 
   const meta = [graduate.degree, graduate.major].filter(Boolean).join(' · ')
 
+  // Trình phát bài hát (Spotify) ngay dưới tên.
+  const songTitle = ctx.content.music?.title
+  const player = ctx.music?.slot ? h('div', { class: 'hero__player' }) : null
+  const song = player
+    ? h('div', { class: 'hero__song' },
+        h('p', { class: 'hero__song-lead', text: songTitle ? `🎧 ${graduate.shortName} gửi bạn bài “${songTitle}”` : `🎧 ${graduate.shortName} gửi bạn một bài hát` }),
+        player,
+      )
+    : null
+
   root.append(
     h('div', { class: 'hero' },
       h('p', { class: 'eyebrow hero__eyebrow', text: `Lễ tốt nghiệp · ${year}` }),
@@ -51,6 +61,7 @@ export function renderHero(root, ctx) {
         ? h('p', { class: 'hero__meta' }, meta ? h('span', { text: meta }) : null, graduate.school ? h('span', { text: graduate.school }) : null)
         : null,
       texts.heroQuote ? h('p', { class: 'hero__quote', text: texts.heroQuote }) : null,
+      song,
       h('a', { class: 'hero__cue', href: '#s-invite', attrs: { 'aria-label': 'Cuộn xuống xem thiệp' } },
         h('span', { text: 'Cuộn xuống' }),
         h('span', { class: 'hero__cue-icon', html: icons.arrowDown }),
@@ -58,5 +69,6 @@ export function renderHero(root, ctx) {
     ),
   )
 
+  if (player) ctx.music.attach(player, { height: 80 })
   ctx.onOpen(() => root.classList.add('is-live'))
 }

@@ -121,7 +121,8 @@ export function renderSchedule(root, ctx) {
     },
   })
 
-  root.append(
+  // Lưu ý: append() gốc biến null thành chữ "null" nên phải lọc bỏ phần trống.
+  const parts = [
     sectionHead('Thời gian', 'Ngày chung vui'),
     dateCard,
     calendar,
@@ -129,6 +130,7 @@ export function renderSchedule(root, ctx) {
     phaseMsg,
     h('div', { class: 'btn-row schedule__actions', attrs: { 'data-reveal': '' } }, gcal, ics),
     event.note ? h('p', { class: 'schedule__note', attrs: { 'data-reveal': '' }, text: event.note }) : null,
-  )
+  ]
+  root.append(...parts.filter(Boolean))
   io.observe(countdownEl)
 }

@@ -116,6 +116,7 @@ function createSpotifyMusic(info, music) {
   let playing = false
   let wantPlay = false
   let hintTimer
+  let height = 152
 
   function play() {
     if (!controller) return
@@ -129,7 +130,7 @@ function createSpotifyMusic(info, music) {
     const prev = window.onSpotifyIframeApiReady
     window.onSpotifyIframeApiReady = (api) => {
       prev?.(api)
-      api.createController(slot.firstChild, { uri: info.uri, width: '100%', height: 152 }, (c) => {
+      api.createController(slot.firstChild, { uri: info.uri, width: '100%', height }, (c) => {
         controller = c
         c.addListener('playback_update', (e) => {
           playing = !e.data.isPaused
@@ -182,7 +183,8 @@ function createSpotifyMusic(info, music) {
     toggle,
     el: btn,
     slot,
-    attach(container) {
+    attach(container, opts = {}) {
+      if (opts.height) height = opts.height
       container.append(slot)
       load()
     },

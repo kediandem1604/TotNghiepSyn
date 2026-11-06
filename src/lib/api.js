@@ -24,6 +24,8 @@ async function request(method, path, body, headers = {}) {
     /* body rỗng hoặc không phải JSON */
   }
   if (!res.ok) throw new ApiError(res.status, data?.error || 'Có lỗi xảy ra, bạn thử lại nhé')
+  // /api trả về trang HTML (cấu hình máy chủ sai) thay vì dữ liệu.
+  if (data === null) throw new ApiError(res.status, 'Máy chủ trả về dữ liệu không đúng, bạn kiểm tra lại phần /api nhé')
   return data
 }
 
