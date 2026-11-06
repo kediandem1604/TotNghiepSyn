@@ -7,7 +7,7 @@
 export default {
   // Người tốt nghiệp
   graduate: {
-    fullName: 'Lý Ngọc Thắm',
+    fullName: 'Ngọc Thắm',
     shortName: 'Thắm', // dùng trong lời mời, chữ ký
     degree: '', // vd. 'Cử nhân'
     major: '', // vd. 'Quản trị Kinh doanh'

@@ -1,4 +1,4 @@
-# 🎓 Thiệp mời tốt nghiệp · Lý Ngọc Thắm
+# 🎓 Thiệp mời tốt nghiệp · Ngọc Thắm
 
 Thiệp mời online phong cách **"Bầu trời mây"** tông xanh da trời:
 
