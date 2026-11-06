@@ -1,3 +1,12 @@
 [build]
   command = "npm run build"
   publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+# Link khách dạng /tien-quoc → trả trang thiệp (file tĩnh có thật như /quan-li/ vẫn được ưu tiên)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
