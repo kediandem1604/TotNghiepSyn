@@ -32,7 +32,20 @@ Dữ liệu thử (khách, lời chúc) khi chạy trên máy được lưu tron
 
 ## Điền nội dung
 
-Mọi chữ trên thiệp nằm trong **`content.js`**, mỗi dòng đều có chú thích. Ô nào để trống thì phần đó tự ẩn.
+### Cách nhanh: tab Cài đặt trong trang quản lí
+
+Vào `…/quan-li` → tab **Cài đặt**. Sửa xong bấm **Lưu** là khách mở thiệp thấy ngay, không cần deploy lại. Sửa được:
+
+- **Thời gian:** ngày, giờ bắt đầu, giờ kết thúc, ghi chú.
+- **Địa điểm:** tên nơi tổ chức, địa chỉ, chữ tìm trên bản đồ, link chỉ đường.
+- **Tên & lời văn:** tên hiển thị, tên gọi ngắn, câu dưới tên, lời mời, lời kết, mẫu tin nhắn gửi khách.
+- **Nhạc & liên hệ:** link YouTube, link Spotify, tên bài hát, điện thoại, Zalo, Messenger.
+
+Ô để trống thì phần đó trên thiệp tự ẩn. Nút **Khôi phục mặc định** đưa mọi thứ về như trong `content.js`. Ảnh xem trước khi gửi link (Zalo, Messenger) là ảnh cố định, không ghi ngày giờ nên không bao giờ hiện giờ cũ.
+
+### Sửa trong code: `content.js`
+
+Mọi chữ trên thiệp có giá trị mặc định trong **`content.js`**, mỗi dòng đều có chú thích. Ô nào để trống thì phần đó tự ẩn. Ảnh, album, ngành/trường, file nhạc `.mp3` và lời chúc gợi ý chỉ sửa được ở đây (sửa xong phải deploy lại). Những ô đã lưu trong tab Cài đặt được ưu tiên hơn `content.js`.
 
 | Muốn thêm | Làm thế này |
 |---|---|
@@ -43,7 +56,7 @@ Mọi chữ trên thiệp nằm trong **`content.js`**, mỗi dòng đều có c
 | **Ngành, trường** | `graduate.degree`, `graduate.major`, `graduate.school`. |
 | **Liên hệ** | `contact.phone`, `contact.zalo` (số điện thoại), `contact.messenger` (tên người dùng Facebook). |
 | **Ghi chú giờ giấc** | `event.note`, ví dụ "Đến sớm 15 phút để chụp ảnh nha 📸". |
-| **Mẫu tin nhắn mời** | `texts.shareTemplate`. Trong đó `{ten}` là tên khách, `{link}` là link riêng của người đó. |
+| **Mẫu tin nhắn mời** | `texts.shareTemplate`. Trong đó `{ten}` là tên khách, `{link}` là link riêng của người đó, `{gio}` là giờ bắt đầu (vd. "10:00 sáng"), `{ngay}` là ngày (vd. "Thứ Năm, 26/11/2026"). |
 
 > Trình duyệt không cho tự phát nhạc khi chưa bấm gì, nên nhạc bắt đầu khi khách bấm **Mở thiệp**. Trên iPhone, âm lượng theo nút âm lượng của máy.
 

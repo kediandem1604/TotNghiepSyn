@@ -21,7 +21,6 @@
     <path d="M-46 8v26c0 11 21 21 46 21s46-10 46-21V8L0 30z" fill="#21497a"/>
     <path d="M68 0v40" stroke="#f2c46d" stroke-width="5" stroke-linecap="round"/><circle cx="68" cy="46" r="7" fill="#f2c46d"/>
   </g>
-  <text x="600" y="300" text-anchor="middle" font-family="'Times New Roman', serif" font-style="italic" font-size="46" fill="#2378c2">Thư mời tốt nghiệp</text>
-  <text x="600" y="388" text-anchor="middle" font-family="'Times New Roman', serif" font-weight="bold" font-size="76" letter-spacing="6" fill="#13304f">NGỌC THẮM</text>
-  <text x="600" y="456" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="600" font-size="34" letter-spacing="5" fill="#4a6585">THỨ NĂM · 26.11.2026 · 10:00</text>
+  <text x="600" y="322" text-anchor="middle" font-family="'Times New Roman', serif" font-style="italic" font-size="46" fill="#2378c2">Thư mời tốt nghiệp</text>
+  <text x="600" y="414" text-anchor="middle" font-family="'Times New Roman', serif" font-weight="bold" font-size="76" letter-spacing="6" fill="#13304f">NGỌC THẮM</text>
 </svg>
