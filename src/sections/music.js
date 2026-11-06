@@ -1,5 +1,6 @@
 import { h, toast } from '../lib/dom.js'
 import { spotifyInfo } from '../lib/spotify.js'
+import { youtubeInfo } from '../lib/youtube.js'
 
 const DISC = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
   <circle cx="24" cy="24" r="23" fill="#13304f"/>
@@ -44,11 +45,13 @@ function musicButton(label) {
 }
 
 /**
- * Nhạc nền. Ưu tiên file nhạc (music.src); không có thì dùng link Spotify (music.spotify).
+ * Nhạc nền. Thứ tự ưu tiên: file nhạc (music.src) → YouTube (music.youtube) → Spotify (music.spotify).
  * Không có gì → không hiện nút nhạc.
  */
 export function createMusic(music, opts = {}) {
   if (music?.src) return createAudioMusic(music, opts)
+  const yt = youtubeInfo(music?.youtube)
+  if (yt) return createYouTubeMusic(yt, music)
   const info = spotifyInfo(music?.spotify)
   if (info) return createSpotifyMusic(info, music)
   return NOOP
@@ -102,7 +105,125 @@ function createAudioMusic(music, { reducedMotion = false }) {
 }
 
 /**
- * Nhạc từ Spotify: trình phát nhúng nằm trong phần "Giai điệu" (attach),
+ * Nhạc từ YouTube: phát trọn bài từ đầu (hoặc từ mốc t= trong link), hết bài thì phát lại.
+ * Trình phát được giấu trong một khung nhỏ ở góc; khách chỉ thấy nút đĩa nhạc.
+ * Máy tính/Android: bật nhạc ngay khi khách bấm "Mở thiệp".
+ * iPhone: YouTube không cho trang tự bật tiếng, nên khi nhạc chưa chạy được thì khung nhỏ
+ * hiện lên để khách bấm ▶; nhạc chạy rồi thì khung tự ẩn.
+ */
+function createYouTubeMusic(info, music) {
+  const { btn, setState } = musicButton(music.title ? `nhạc: ${music.title}` : 'nhạc nền')
+  const slot = h('div', { class: 'yt-slot' }, h('div'))
+  const close = h('button', { class: 'yt-dock__close', attrs: { type: 'button', 'aria-label': 'Ẩn trình phát' }, text: '×' })
+  const dock = h('div', { class: 'yt-dock' },
+    h('p', { class: 'yt-dock__hint', text: 'Bấm ▶ để nghe nhạc nhé 🎵' }),
+    close,
+    slot,
+  )
+  document.body.append(dock)
+  // Không dùng display:none để trình phát vẫn chạy khi bị giấu.
+  const showDock = (open) => {
+    dock.classList.toggle('is-open', open)
+    dock.inert = !open
+  }
+  showDock(false)
+  close.addEventListener('click', () => showDock(false))
+
+  let player = null
+  let loaded = false
+  let ready = false
+  let playing = false
+  let wantPlay = false
+  let hintTimer
+
+  function play() {
+    if (ready) player.playVideo()
+  }
+
+  function onStateChange({ data }) {
+    const S = window.YT.PlayerState
+    if (data === S.PLAYING) {
+      playing = true
+      clearTimeout(hintTimer)
+      showDock(false)
+    } else if (data === S.PAUSED) {
+      playing = false
+    } else if (data === S.ENDED) {
+      // Hết bài: quay lại đoạn mở đầu và phát tiếp.
+      player.seekTo(info.start, true)
+      player.playVideo()
+      return
+    } else {
+      return
+    }
+    setState(playing)
+  }
+
+  function create() {
+    player = new window.YT.Player(slot.firstChild, {
+      videoId: info.id,
+      width: '100%',
+      height: '100%',
+      playerVars: { start: info.start, playsinline: 1, rel: 0, iv_load_policy: 3, origin: window.location.origin },
+      events: {
+        onReady() {
+          ready = true
+          if (wantPlay) play()
+        },
+        onStateChange,
+        onError: () => btn.remove(),
+      },
+    })
+  }
+
+  function load() {
+    if (loaded) return
+    loaded = true
+    if (window.YT?.Player) return create()
+    const prev = window.onYouTubeIframeAPIReady
+    window.onYouTubeIframeAPIReady = () => {
+      prev?.()
+      create()
+    }
+    document.head.append(h('script', { src: 'https://www.youtube.com/iframe_api', async: true }))
+  }
+
+  // Nhạc không chạy được (thường gặp trên iPhone): hiện khung nhỏ để khách bấm ▶.
+  function hintIfSilent(delay) {
+    clearTimeout(hintTimer)
+    hintTimer = setTimeout(() => {
+      if (!playing && ready) showDock(true)
+    }, delay)
+  }
+
+  function start() {
+    wantPlay = true
+    play()
+    hintIfSilent(2500)
+  }
+
+  function toggle() {
+    if (playing) return player?.pauseVideo()
+    wantPlay = true
+    play()
+    hintIfSilent(1200)
+  }
+
+  pauseWhenHidden({
+    get paused() {
+      return !playing
+    },
+    pause: () => player?.pauseVideo(),
+    play,
+  })
+
+  btn.addEventListener('click', toggle)
+  load() // nạp sẵn để lúc khách bấm "Mở thiệp" là phát được ngay
+  return { ...NOOP, start, toggle, el: btn }
+}
+
+/**
+ * Nhạc từ Spotify: trình phát nhúng nằm ở phần đầu thiệp (attach),
  * nút nổi điều khiển qua Spotify iFrame API.
  * Lưu ý: người chưa đăng nhập Spotify chỉ nghe được 30 giây; iPhone thường
  * bắt bấm ▶ ngay trong trình phát.

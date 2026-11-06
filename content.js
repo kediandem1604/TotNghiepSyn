@@ -34,14 +34,18 @@ export default {
     directionsUrl: 'https://maps.app.goo.gl/XM9tDsqNQs2nFzrj6',
   },
 
-  // Nhạc nền — chọn 1 trong 2:
-  // • File nhạc (khuyên dùng): chép .mp3 vào public/nhac/ rồi ghi src, vd. '/nhac/nhac-nen.mp3'.
+  // Nhạc nền — chọn 1 trong 3 (khách bật/tắt bằng nút đĩa nhạc ở góc dưới):
+  // • File nhạc: chép .mp3 vào public/nhac/ rồi ghi src, vd. '/nhac/nhac-nen.mp3'.
   //   Phát trọn bài, tự bật khi khách bấm "Mở thiệp" (kể cả iPhone).
-  // • Link Spotify: dán vào spotify. Thiệp hiện trình phát Spotify ở phần "Giai điệu".
-  //   Khách chưa đăng nhập Spotify chỉ nghe được 30 giây; iPhone thường phải bấm ▶ trong trình phát.
-  // Có cả hai thì dùng file nhạc.
+  // • Link YouTube: dán vào youtube. Phát trọn bài từ đầu (muốn bắt đầu ở giây khác thì
+  //   thêm &t=30 vào link), trình phát được giấu đi. Tự bật khi bấm "Mở thiệp"; trên iPhone
+  //   một trình phát nhỏ hiện ở góc để khách bấm ▶, nhạc chạy rồi thì tự ẩn.
+  // • Link Spotify: dán vào spotify. Trình phát hiện ở phần đầu thiệp, ngay dưới tên.
+  //   Khách chưa đăng nhập Spotify chỉ nghe được 30 giây do Spotify tự chọn đoạn.
+  // Có nhiều cái thì ưu tiên: file nhạc → YouTube → Spotify.
   music: {
     src: '',
+    youtube: 'https://www.youtube.com/watch?v=jNne1xPAHEY',
     spotify: 'https://open.spotify.com/track/5w2XLlsTxumdmb6rhhSC3x',
     title: '佩奇的夏天',
   },

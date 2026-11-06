@@ -217,6 +217,65 @@
   transform: scaleY(0.25);
 }
 
+/* Trình phát YouTube: giấu sẵn ngay trên nút nhạc, chỉ hiện khi khách cần bấm ▶ (iPhone).
+   Giấu bằng opacity thay vì display:none để nhạc vẫn chạy. */
+.yt-dock {
+  position: fixed;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: calc(max(14px, env(safe-area-inset-bottom)) + 62px);
+  z-index: 96;
+  width: min(280px, calc(100vw - 28px));
+  padding: 8px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.96);
+  transform-origin: bottom left;
+  transition: opacity 0.35s ease, transform 0.35s var(--ease-out);
+}
+
+.yt-dock.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.yt-dock__hint {
+  margin: 2px 34px 8px 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.yt-dock__close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--ink-soft);
+}
+
+.yt-slot {
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.yt-slot iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
