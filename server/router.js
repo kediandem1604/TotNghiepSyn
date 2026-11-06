@@ -1,5 +1,6 @@
 import { HttpError, json } from './http.js'
 import { publicRoutes } from './handlers/public.js'
+import { adminRoutes } from './handlers/admin.js'
 
 const PREFIXES = ['/.netlify/functions/api', '/api']
 
@@ -11,7 +12,7 @@ const defaultId = () => crypto.randomUUID().replace(/-/g, '').slice(0, 10)
  */
 export function createRouter({ store, adminPassword = '', now = () => new Date(), randomId = defaultId }) {
   const deps = { store, adminPassword, now, randomId }
-  const routes = [...publicRoutes(deps)]
+  const routes = [...publicRoutes(deps), ...adminRoutes(deps)]
 
   return async function handle(req) {
     try {
