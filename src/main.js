@@ -11,7 +11,9 @@ import './styles/venue.css'
 import './styles/rsvp.css'
 import './styles/wishes.css'
 
-import content from '../content.js'
+import baseContent from '../content.js'
+import { mergeSettings } from '../shared/settings.js'
+import { loadSettings } from './lib/load-settings.js'
 import { api } from './lib/api.js'
 import { h, prefersReducedMotion } from './lib/dom.js'
 import { parseRoute } from './lib/route.js'
@@ -79,6 +81,11 @@ async function boot() {
   const route = parseRoute(location)
   initSky({ reducedMotion })
 
+  // Tải tên khách và cài đặt cùng lúc. Bìa và nhạc cần cài đặt (tên, ngày, link nhạc)
+  // nên chờ cài đặt, tối đa 2,5 giây; lỗi hoặc chậm thì dùng nội dung gốc trong content.js.
+  const guestReady = withTimeout(loadGuest(route.slug), GUEST_TIMEOUT_MS).catch(() => null)
+  const content = mergeSettings(baseContent, await loadSettings(api.getConfig))
+
   const safe = (cb) => {
     try {
       cb()
@@ -97,7 +104,7 @@ async function boot() {
     guest: null,
     displayName: displayName(null),
     // Mạng chậm/treo thì sau 2,5 giây dùng thiệp chung, không để khách chờ mãi.
-    guestReady: withTimeout(loadGuest(route.slug), GUEST_TIMEOUT_MS).catch(() => null),
+    guestReady,
     fx: { burst() {}, floatEmoji() {} },
     /** Chạy khi thiệp đã mở xong (đăng ký sau lúc mở thì chạy ngay). */
     onOpen: (cb) => (opened ? safe(cb) : openCallbacks.push(cb)),

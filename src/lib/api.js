@@ -32,6 +32,7 @@ async function request(method, path, body, headers = {}) {
 const seg = (s) => encodeURIComponent(s)
 
 export const api = {
+  getConfig: () => request('GET', '/config'),
   getGuest: (slug) => request('GET', `/guests/${seg(slug)}`),
   markOpened: (slug) => request('POST', `/guests/${seg(slug)}/opened`),
   sendRsvp: (body) => request('POST', '/rsvp', body),
