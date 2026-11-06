@@ -9,6 +9,7 @@ import './styles/info.css'
 import './styles/schedule.css'
 import './styles/venue.css'
 import './styles/rsvp.css'
+import './styles/wishes.css'
 
 import content from '../content.js'
 import { api } from './lib/api.js'
@@ -26,7 +27,9 @@ import { renderSchedule } from './sections/schedule.js'
 import { renderVenue } from './sections/venue.js'
 import { renderGallery } from './sections/gallery.js'
 import { renderRsvp } from './sections/rsvp.js'
+import { renderWishes } from './sections/wishes.js'
 import { renderContact } from './sections/contact.js'
+import { floatEmoji } from './fx/floaters.js'
 import { renderClosing } from './sections/closing.js'
 
 // Thứ tự các phần trên trang.
@@ -37,6 +40,7 @@ const SECTIONS = [
   ['venue', renderVenue],
   ['gallery', renderGallery],
   ['rsvp', renderRsvp],
+  ['wishes', renderWishes],
   ['contact', renderContact],
   ['closing', renderClosing],
 ]
@@ -96,6 +100,7 @@ async function boot() {
   }
 
   ctx.fx.burst = createConfetti().burst
+  ctx.fx.floatEmoji = floatEmoji
   const music = createMusic(content.music, { reducedMotion })
   ctx.onOpen(() => music.start())
 

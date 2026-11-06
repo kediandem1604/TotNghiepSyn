@@ -1,0 +1,324 @@
+.section--wishes > * + * {
+  margin-top: 16px;
+}
+
+.section--wishes > .section-head + * {
+  margin-top: 0;
+}
+
+/* ── Form ─────────────────────────────────────────────── */
+.wish-form {
+  display: grid;
+  gap: 12px;
+}
+
+.wish-form__msg {
+  position: relative;
+}
+
+.wish-form__count {
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+
+.wish-form__msg textarea {
+  padding-bottom: 28px;
+}
+
+.wish-form__emojis {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wish-form__label {
+  margin-right: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.emoji-pick {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  background: var(--sky-50);
+  border: 1.5px solid transparent;
+  transition: transform 0.2s var(--ease-spring), background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.emoji-pick[aria-pressed='true'] {
+  background: var(--white);
+  border-color: var(--sky-400);
+  transform: scale(1.12);
+  box-shadow: 0 4px 12px rgba(35, 120, 194, 0.2);
+}
+
+.wish-form__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.wish-form__tip {
+  width: 50px;
+  min-width: 50px;
+  padding: 0;
+  color: var(--gold-deep);
+}
+
+.wish-form__send {
+  flex: 1;
+}
+
+.wish-form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+/* ── Thanh cảm xúc ────────────────────────────────────── */
+.reactions {
+  padding: 16px 12px 14px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(225, 242, 255, 0.92));
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.reactions__title {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.reactions__row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+.reaction {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 8px 0 6px;
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  transition: transform 0.15s ease;
+}
+
+.reaction:active {
+  transform: scale(0.92);
+}
+
+.reaction__emoji {
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.reaction.is-bump .reaction__emoji {
+  animation: bump 0.35s var(--ease-spring);
+}
+
+@keyframes bump {
+  40% {
+    transform: scale(1.35) rotate(-8deg);
+  }
+}
+
+.reaction__count {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--sky-700);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Danh sách lời chúc ───────────────────────────────── */
+.wall__count {
+  margin: 6px 4px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.wall__count:empty {
+  display: none;
+}
+
+.wall__list {
+  display: grid;
+  gap: 12px;
+  max-height: 70vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 4px 12px;
+  margin: 0 -4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sky-300) transparent;
+}
+
+.wish {
+  display: flex;
+  gap: 12px;
+  padding: 16px 16px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.wish--new {
+  animation: wish-in 0.7s var(--ease-out);
+}
+
+@keyframes wish-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -14px, 0) scale(0.97);
+    box-shadow: 0 0 0 3px rgba(95, 182, 242, 0.5);
+  }
+}
+
+.wish__emoji {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  background: var(--sky-50);
+}
+
+.wish__body {
+  min-width: 0;
+  flex: 1;
+}
+
+.wish__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.wish__name {
+  font-weight: 700;
+  color: var(--sky-700);
+  overflow-wrap: anywhere;
+}
+
+.wish__time {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+.wish__msg {
+  margin: 4px 0 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+}
+
+.wall__empty,
+.wall__error {
+  margin: 0;
+  padding: 26px 18px;
+  text-align: center;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.wall__error p {
+  margin: 0 0 10px;
+}
+
+/* ── Emoji bay ────────────────────────────────────────── */
+.floaters {
+  position: fixed;
+  inset: 0;
+  z-index: 85;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floater {
+  position: absolute;
+  font-size: var(--size);
+  line-height: 1;
+  animation: float-up var(--dur) cubic-bezier(0.2, 0.6, 0.35, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.floater__inner {
+  display: block;
+  animation: sway var(--sway) ease-in-out infinite alternate;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+  }
+  12% {
+    transform: translate(-50%, -90%) scale(1.15);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% - var(--rise))) rotate(var(--rot)) scale(0.85);
+    opacity: 0;
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: translateX(-9px) rotate(-7deg);
+  }
+  to {
+    transform: translateX(9px) rotate(7deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floater {
+    animation: float-soft 1.2s ease-out forwards !important;
+  }
+  .floater__inner {
+    animation: none !important;
+  }
+}
+
+@keyframes float-soft {
+  from {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -150%);
+    opacity: 0;
+  }
+}
