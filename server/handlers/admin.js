@@ -1,6 +1,7 @@
 import { createHash, timingSafeEqual } from 'node:crypto'
 import { HttpError, json, noContent, readJson } from '../http.js'
 import { cleanText } from '../validate.js'
+import { validateSettings } from '../settings.js'
 import { update } from '../store/update.js'
 import { EMPTY, load, fullCounts } from './public.js'
 import { uniqueSlug } from '../../shared/slug.js'
@@ -110,6 +111,22 @@ export function adminRoutes({ store, adminPassword, now }) {
         data.wishes.splice(i, 1)
         return data
       }, EMPTY.wishes)
+      return noContent()
+    })],
+
+    // Cài đặt thiệp (tab "Cài đặt"): lưu đủ các ô, kiểm tra trước khi ghi.
+    ['PUT', /^\/admin\/config$/, guarded(async (req) => {
+      const body = await readJson(req, LIMITS.maxBody)
+      const settings = validateSettings(body.settings)
+      const updatedAt = now().toISOString()
+      await update(store, 'config', () => ({ settings, updatedAt }), EMPTY.config)
+      return json(200, { settings })
+    })],
+
+    // Khôi phục mặc định: ghi cài đặt rỗng → thiệp dùng lại content.js.
+    ['DELETE', /^\/admin\/config$/, guarded(async () => {
+      const updatedAt = now().toISOString()
+      await update(store, 'config', () => ({ settings: {}, updatedAt }), EMPTY.config)
       return noContent()
     })],
   ]

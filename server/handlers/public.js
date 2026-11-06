@@ -8,6 +8,7 @@ export const EMPTY = {
   rsvps: { rsvps: [] },
   wishes: { wishes: [] },
   reactions: { counts: {} },
+  config: { settings: {} },
 }
 
 const NOT_FOUND_GUEST = 'Không tìm thấy khách mời'
@@ -33,6 +34,9 @@ export function publicRoutes({ store, now, randomId }) {
   const stamp = () => now().toISOString()
 
   return [
+    // Cài đặt thiệp do trang quản lí lưu (giờ, địa điểm…); chưa lưu → {}.
+    ['GET', /^\/config$/, async () => json(200, { settings: (await load(store, 'config')).settings })],
+
     ['GET', /^\/guests\/([a-z0-9-]+)$/, async (req, [slug]) => {
       const g = findGuest(await load(store, 'guests'), slug)
       return json(200, { name: g.name, title: g.title, note: g.note, rsvp: g.rsvp })
