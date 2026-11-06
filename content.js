@@ -43,7 +43,7 @@ export default {
   // Ảnh: chép vào public/anh/ rồi ghi đường dẫn, vd. '/anh/chan-dung.jpg'
   // Nên dùng ảnh JPG/WebP chiều dài ~1600px để tải nhanh.
   photos: {
-    hero: '', // ảnh chân dung (dọc)
+    hero: '/anh/tham-chibi.svg', // ảnh chân dung (dọc) — đang là tranh chibi, thay bằng ảnh khác tuỳ ý
     gallery: [], // vd. ['/anh/1.jpg', '/anh/2.jpg']
   },
 

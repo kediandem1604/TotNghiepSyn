@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 300 400" role="img" aria-label="Tranh chibi Thắm đội mũ tốt nghiệp">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fcdfb"/>
+      <stop offset=".6" stop-color="#d6edff"/>
+      <stop offset="1" stop-color="#fff2ea"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".82" cy=".14" r=".42">
+      <stop offset="0" stop-color="#fffbea"/>
+      <stop offset="1" stop-color="#fffbea" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#302a3d"/>
+      <stop offset=".5" stop-color="#1f1a28"/>
+      <stop offset="1" stop-color="#16121d"/>
+    </linearGradient>
+    <linearGradient id="gown" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a5a8f"/>
+      <stop offset="1" stop-color="#173a63"/>
+    </linearGradient>
+    <radialGradient id="skin" cx=".5" cy=".45" r=".6">
+      <stop offset="0" stop-color="#fff2e9"/>
+      <stop offset="1" stop-color="#ffdfcf"/>
+    </radialGradient>
+    <radialGradient id="iris" cx=".5" cy=".28" r=".8">
+      <stop offset="0" stop-color="#3b2620"/>
+      <stop offset=".55" stop-color="#241713"/>
+      <stop offset="1" stop-color="#7a5040"/>
+    </radialGradient>
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#e6f3ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Trời -->
+  <rect width="300" height="400" fill="url(#bg)"/>
+  <rect width="300" height="400" fill="url(#sun)"/>
+  <g fill="#fff" opacity=".8">
+    <circle cx="36" cy="92" r="14"/><circle cx="54" cy="84" r="18"/><circle cx="74" cy="94" r="12"/><rect x="24" y="92" width="62" height="14" rx="7"/>
+  </g>
+  <g fill="#fff" opacity=".7">
+    <circle cx="244" cy="170" r="10"/><circle cx="258" cy="164" r="13"/><circle cx="272" cy="172" r="9"/><rect x="236" y="170" width="44" height="10" rx="5"/>
+  </g>
+
+  <!-- Tóc phía sau -->
+  <path d="M150 84C94 84 58 130 60 192C62 250 60 300 54 340C50 368 46 388 42 400H258C254 388 250 368 246 340C240 300 238 250 240 192C242 130 206 84 150 84Z" fill="url(#hair)"/>
+  <g fill="none" stroke="#3d3650" stroke-width="2" stroke-linecap="round" opacity=".7">
+    <path d="M76 214Q72 290 62 372"/><path d="M90 236Q88 300 80 380"/>
+    <path d="M224 214Q228 290 238 372"/><path d="M210 236Q212 300 220 380"/>
+  </g>
+
+  <!-- Áo cử nhân -->
+  <path d="M70 400C72 318 100 274 150 270C200 274 228 318 230 400Z" fill="url(#gown)"/>
+  <!-- Cổ & áo thun trắng -->
+  <path d="M137 236h26v40h-26z" fill="#ffdfcf"/>
+  <path d="M137 248c8 7 18 7 26 0v-12h-26z" fill="#f3c6b3"/>
+  <path d="M124 272 150 304 176 272C166 279 134 279 124 272Z" fill="#fbfaf7"/>
+  <path d="M110 276C122 290 136 306 150 318 136 290 128 280 124 272Z" fill="#1d4472"/>
+  <path d="M190 276C178 290 164 306 150 318 164 290 172 280 176 272Z" fill="#1d4472"/>
+  <!-- Khăn choàng xanh trời -->
+  <path d="M108 278C116 310 120 352 118 400H138C140 356 136 316 128 282Z" fill="#7cc4f8"/>
+  <path d="M192 278C184 310 180 352 182 400H162C160 356 164 316 172 282Z" fill="#7cc4f8"/>
+  <path d="M120 372h16M164 372h16" stroke="#f2c46d" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Lọn tóc buông trước vai -->
+  <path d="M90 168C76 222 78 272 92 330L100 350L104 326C108 290 108 238 112 200Z" fill="url(#hair)"/>
+  <path d="M210 168C224 222 222 272 208 330L200 350L196 326C192 290 192 238 188 200Z" fill="url(#hair)"/>
+  <g fill="none" stroke="#3d3650" stroke-width="1.8" stroke-linecap="round" opacity=".75">
+    <path d="M96 206Q90 260 96 316"/><path d="M204 206Q210 260 204 316"/>
+  </g>
+
+  <!-- Đầu (hơi nghiêng cho dễ thương) -->
+  <g transform="rotate(-5 150 200)">
+    <!-- Mặt -->
+    <path d="M84 182C84 134 116 118 150 118C184 118 216 134 216 182C216 224 188 254 150 258C112 254 84 224 84 182Z" fill="url(#skin)" stroke="#efc5b2" stroke-width="1.5"/>
+    <!-- Bóng dưới mái -->
+    <ellipse cx="150" cy="164" rx="60" ry="18" fill="#f5cbb9" opacity=".55"/>
+
+    <!-- Mắt trái -->
+    <ellipse cx="123" cy="199" rx="12.5" ry="15" fill="url(#iris)"/>
+    <circle cx="118.5" cy="193" r="5" fill="#fff"/>
+    <circle cx="127.5" cy="206" r="2.2" fill="#fff" opacity=".9"/>
+    <path d="M109 195Q123 175 138 193" fill="none" stroke="#17100f" stroke-width="4" stroke-linecap="round"/>
+    <path d="M110 194l-6-3" stroke="#17100f" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M116 214q7 3 14 0" fill="none" stroke="#c9907f" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- Mắt phải -->
+    <ellipse cx="177" cy="199" rx="12.5" ry="15" fill="url(#iris)"/>
+    <circle cx="172.5" cy="193" r="5" fill="#fff"/>
+    <circle cx="181.5" cy="206" r="2.2" fill="#fff" opacity=".9"/>
+    <path d="M162 193Q177 175 191 195" fill="none" stroke="#17100f" stroke-width="4" stroke-linecap="round"/>
+    <path d="M190 194l6-3" stroke="#17100f" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M170 214q7 3 14 0" fill="none" stroke="#c9907f" stroke-width="1.4" stroke-linecap="round"/>
+
+    <!-- Má hồng -->
+    <ellipse cx="107" cy="222" rx="13" ry="7.5" fill="#ff9fab" opacity=".5"/>
+    <ellipse cx="193" cy="222" rx="13" ry="7.5" fill="#ff9fab" opacity=".5"/>
+    <path d="M101 222l3-4M107 222l3-4M113 222l3-4M187 222l3-4M193 222l3-4M199 222l3-4" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".85"/>
+
+    <!-- Mũi & miệng -->
+    <path d="M149 214q2 2 4 0" fill="none" stroke="#e2a493" stroke-width="2" stroke-linecap="round"/>
+    <path d="M142 229Q150 240 158 229Q150 232 142 229Z" fill="#ec7c88"/>
+    <path d="M142 229Q150 232 158 229" fill="none" stroke="#cf5f6d" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Mái thưa, so le -->
+    <path d="M84 180C80 126 114 100 150 100C186 100 220 126 216 180
+             Q212 168 210 158Q206 170 200 184Q198 166 192 152Q188 170 182 186Q180 164 172 150Q168 170 164 184
+             Q160 160 154 146Q150 160 148 172Q144 158 138 150Q136 168 140 186Q130 166 128 150Q122 168 120 186
+             Q116 166 110 154Q106 168 102 184Q98 170 94 160Q90 170 84 180Z" fill="url(#hair)"/>
+
+    <!-- Mũ tốt nghiệp -->
+    <g transform="rotate(-9 150 96)">
+      <path d="M102 104v18q48 18 96 0v-18q-48 16-96 0z" fill="#1d3f6b"/>
+      <path d="M150 64 236 92 150 120 64 92z" fill="#13304f"/>
+      <path d="M150 64 236 92 150 120 64 92z" fill="none" stroke="#2a5287" stroke-width="2"/>
+      <path d="M150 92 224 98v40" fill="none" stroke="#f2c46d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M218 138h12l-2 16h-8z" fill="#f2c46d"/>
+      <circle cx="150" cy="92" r="4.5" fill="#f2c46d"/>
+    </g>
+  </g>
+
+  <!-- Tay & văn bằng -->
+  <path d="M92 400 102 352Q116 338 128 352L126 400Z" fill="#24507f"/>
+  <path d="M208 400 198 352Q184 338 172 352L174 400Z" fill="#24507f"/>
+  <g transform="rotate(-10 150 348)">
+    <rect x="98" y="338" width="104" height="20" rx="10" fill="#fffaf0" stroke="#e7dcc4" stroke-width="1.5"/>
+    <ellipse cx="200" cy="348" rx="5" ry="10" fill="#f4ead6" stroke="#e7dcc4" stroke-width="1.5"/>
+    <rect x="145" y="336" width="10" height="24" rx="2" fill="#5fb6f2"/>
+    <path d="M150 336q-14-12-18 0q4 6 18 0zM150 336q14-12 18 0q-4 6-18 0z" fill="#3b9be3"/>
+  </g>
+  <circle cx="114" cy="352" r="11" fill="#ffdfcf" stroke="#efc5b2" stroke-width="1.5"/>
+  <circle cx="186" cy="338" r="11" fill="#ffdfcf" stroke="#efc5b2" stroke-width="1.5"/>
+
+  <!-- Mây phía trước -->
+  <g fill="url(#cloud)">
+    <circle cx="20" cy="386" r="30"/><circle cx="58" cy="378" r="26"/><circle cx="92" cy="394" r="22"/>
+    <circle cx="214" cy="394" r="22"/><circle cx="248" cy="380" r="28"/><circle cx="286" cy="388" r="26"/>
+  </g>
+
+  <!-- Lấp lánh -->
+  <g fill="#fff">
+    <path d="M42 150l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+    <path d="M266 248l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" opacity=".9"/>
+  </g>
+  <path d="M254 58l2.5 6.5 6.5 2.5-6.5 2.5-2.5 6.5-2.5-6.5-6.5-2.5 6.5-2.5z" fill="#f2c46d"/>
+</svg>
