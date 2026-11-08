@@ -73,6 +73,10 @@ export function renderSettingsTab(root, state) {
     SETTINGS_GROUPS.map((g) =>
       h('fieldset', { class: 'card cfg-group' },
         h('legend', { class: 'card-title cfg-legend', text: g.title }),
+        // File mp3 (đặt trong content.js) luôn được ưu tiên hơn link YouTube/Spotify.
+        g.fields.some((f) => f.path === 'music.youtube') && baseContent.music?.src
+          ? h('p', { class: 'cfg-note', text: '🎵 Thiệp đang phát file nhạc riêng (mp3), nên hai ô link YouTube và Spotify tạm thời không được dùng.' })
+          : null,
         h('div', { class: 'cfg-grid' }, g.fields.map(field)),
       ),
     ),
