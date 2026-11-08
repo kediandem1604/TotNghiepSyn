@@ -44,7 +44,7 @@ export default {
   //   Khách chưa đăng nhập Spotify chỉ nghe được 30 giây do Spotify tự chọn đoạn.
   // Có nhiều cái thì ưu tiên: file nhạc → YouTube → Spotify.
   music: {
-    src: '/nhac/nhac-nen.mp3', // đang dùng: phát trên mọi máy, không hiện trình phát
+    src: '/nhac/syn-ke.mp3', // đang dùng: phát trên mọi máy, không hiện trình phát
     youtube: 'https://www.youtube.com/watch?v=jNne1xPAHEY',
     spotify: 'https://open.spotify.com/track/5w2XLlsTxumdmb6rhhSC3x',
     title: '佩奇的夏天',
