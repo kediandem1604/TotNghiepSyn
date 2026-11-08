@@ -1,5 +1,6 @@
 import { h, sectionHead, whenNear } from '../lib/dom.js'
 import { icons } from '../lib/icons.js'
+import { mapEmbedUrl } from '../lib/maps.js'
 
 const EMPTY_ART = `<svg viewBox="0 0 160 110" width="150" aria-hidden="true">
   <g fill="#fff"><circle cx="46" cy="78" r="22"/><circle cx="76" cy="68" r="28"/><circle cx="106" cy="80" r="20"/><rect x="26" y="78" width="104" height="22" rx="11"/></g>
@@ -43,7 +44,7 @@ export function renderVenue(root, ctx) {
   if (map) {
     whenNear(map, () => {
       const iframe = h('iframe', {
-        src: `https://www.google.com/maps?q=${encodeURIComponent(venue.mapQuery)}&output=embed`,
+        src: mapEmbedUrl(venue.mapQuery),
         title: `Bản đồ: ${venue.name || venue.mapQuery}`,
         attrs: { loading: 'lazy', referrerpolicy: 'no-referrer-when-downgrade', allowfullscreen: true },
       })
